@@ -29,16 +29,23 @@ namespace BrowserLog.TinyServer
 
         public override string ToString()
         {
-            var builder = new StringBuilder("HTTP/1.1 " + _statusCode + "\n");
+            var builder = new StringBuilder("HTTP/1.1 " + _statusCode + " OK\r\n");
+
+            if (Content != null)
+            {
+                var byteCount = Encoding.UTF8.GetByteCount(Content);
+                _headers.Add("Content-Length", byteCount.ToString());
+            }
             foreach (var header in _headers)
             {
-                builder.Append(header.Key + ": " + header.Value + "\n");
+                builder.Append(header.Key + ": " + header.Value + "\r\n");
             }
-            builder.Append("\n");
+            builder.Append("\r\n");
             if (Content != null)
             {
                 builder.Append(Content);
             }
+
             Console.Out.WriteLine("Sending;\n" + builder.ToString());
             return builder.ToString();
         }

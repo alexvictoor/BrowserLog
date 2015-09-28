@@ -46,6 +46,8 @@
     <Compile Include="TinyServer\HttpResponseChannel.cs" />
     <Compile Include="TinyServer\HttpServer.cs" />
     <Compile Include="TinyServer\LineParser.cs" />
+    <Compile Include="TinyServer\MulticastChannel.cs" />
+    <Compile Include="TinyServer\ServerSentEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

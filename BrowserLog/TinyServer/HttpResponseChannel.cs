@@ -26,6 +26,7 @@ namespace BrowserLog.TinyServer
 
         public void Close()
         {
+            _tcpClient.GetStream().Close();
             _tcpClient.Close();
         }
     }

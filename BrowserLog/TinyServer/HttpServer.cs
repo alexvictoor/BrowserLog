@@ -13,39 +13,39 @@ namespace BrowserLog.TinyServer
     {
         private readonly int _port ;
         private readonly IPAddress _host;
-        private readonly Func<HttpContext, Task> _handler;
+        private readonly Action<HttpContext> _handler;
         private volatile bool _running;
 
-        public HttpServer(string hostName, int port, Func<HttpContext, Task> handler)
+        public HttpServer(string hostName, int port, Action<HttpContext> handler)
         {
             _port = port;
             _handler = handler;
             _host = IPAddress.Parse(hostName);
         }
 
-        public async void Run()
+        public void Run()
         {
             var server = new TcpListener(_host, _port);
 
             // Start listening for client requests.
             server.Start();
             _running = true;
-            while (_running)
+            Task.Run(async () =>
             {
-                var tcpClient = await server.AcceptTcpClientAsync();
-                Task.Run(async () =>
+                while (_running)
+                {
+                    var tcpClient = await server.AcceptTcpClientAsync();
+                    Task.Run(async () =>
                     {
-                        Console.Out.WriteLine("connection received");
                         var source = tcpClient.GetStream();
                         var lines = await new LineParser().Parse(source, CancellationToken.None);
                         var httpRequest = HttpRequest.Parse(lines);
                         var responseChannel = new HttpResponseChannel(tcpClient);
                         var httpContext = new HttpContext(httpRequest, responseChannel);
-                        _handler(httpContext).Wait();
-                        Console.Out.WriteLine("End Handling request");
+                        _handler(httpContext);
                     });
-                
-            }
+                }
+            });
         }
     }
 }
