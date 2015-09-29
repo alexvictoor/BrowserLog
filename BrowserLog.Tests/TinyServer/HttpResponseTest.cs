@@ -15,7 +15,7 @@ namespace BrowserLog.TinyServer
         public void Should_build_response_with_status_code()
         {
             // given
-            var response = new HttpResponse(404);
+            var response = new HttpResponse(404, "NOT FOUND");
             // when
             var textResponse = response.ToString();
             // then
@@ -26,7 +26,7 @@ namespace BrowserLog.TinyServer
         public void Should_build_response_with_headers()
         {
             // given
-            var response = new HttpResponse(404);
+            var response = new HttpResponse(404, "NOT FOUND");
             response.AddHeader("DummyHeader", "DummyValue");
             // when
             var textResponse = response.ToString();
@@ -43,8 +43,8 @@ namespace BrowserLog.TinyServer
             {
 
                 Console.Out.WriteLine("Before read request");
-           
-                var httpResponse = new HttpResponse(200);
+
+                var httpResponse = new HttpResponse(200, "OK");
                 if (ctx.HttpRequest.Uri != "/stream")
                 {
                     httpResponse.AddHeader("Content-Type", "text/html");
@@ -68,7 +68,8 @@ namespace BrowserLog.TinyServer
             for (int i = 0; i < 4000; i++)
             {
                 Console.Out.WriteLine("Sending msg " + i);
-                multicast.Send("id: " + i + "\ndata: " + DateTime.Now + "\n\n");
+                //multicast.Send("id: " + i + "\ndata: " + DateTime.Now + "\n\n");
+                multicast.Send(new ServerSentEvent(type: "debug", data: DateTime.Now.ToLongTimeString()));
                 Thread.Sleep(1000);
             }
             Console.In.Read();

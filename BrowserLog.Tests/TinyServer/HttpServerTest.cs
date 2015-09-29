@@ -21,7 +21,7 @@ namespace BrowserLog.TinyServer
             bool called = false;
             var server = new HttpServer("127.0.0.1", port, ctx =>
             {
-                var response = new HttpResponse(200);
+                var response = new HttpResponse(200, "OK");
                 response.AddHeader("Content-Type", "text/html; charset=utf-8");
                 response.AddHeader("Connection", "close");
                 response.AddHeader("Date", "Sun, 27 Sep 2015 20:19:46 GMT");

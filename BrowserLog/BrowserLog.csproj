@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,14 +43,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SseAppender.cs" />
+    <Compile Include="ChannelFactory.cs" />
     <Compile Include="TinyServer\HttpContext.cs" />
     <Compile Include="TinyServer\HttpRequest.cs" />
     <Compile Include="TinyServer\HttpResponse.cs" />
     <Compile Include="TinyServer\HttpResponseChannel.cs" />
     <Compile Include="TinyServer\HttpServer.cs" />
+    <Compile Include="TinyServer\IChannel.cs" />
     <Compile Include="TinyServer\LineParser.cs" />
     <Compile Include="TinyServer\MulticastChannel.cs" />
     <Compile Include="TinyServer\ServerSentEvent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

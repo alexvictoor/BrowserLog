@@ -19,8 +19,8 @@ namespace BrowserLog.TinyServer
 
         public override string ToString()
         {
-            return "type: \"" + _type + "\"\r\n"
-                   + "data: \"" + _data + "\"\r\n";
+            return "event: " + _type + "\r\n"
+                   + "data: " + _data + "\r\n\r\n";
         }
     }
 }

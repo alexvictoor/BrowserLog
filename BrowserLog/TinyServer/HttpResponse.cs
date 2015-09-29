@@ -9,6 +9,7 @@ namespace BrowserLog.TinyServer
     public class HttpResponse
     {
         private readonly int _statusCode;
+        private readonly string _statusDescription;
         private readonly IDictionary<string, string> _headers = new Dictionary<string, string>();
         public string Content;
 
@@ -17,9 +18,10 @@ namespace BrowserLog.TinyServer
             _statusCode = 0;
         }
 
-        public HttpResponse(int statusCode)
+        public HttpResponse(int statusCode, string statusDescription)
         {
             _statusCode = statusCode;
+            _statusDescription = statusDescription;
         }
 
         public void AddHeader(string name, string value)
@@ -29,7 +31,7 @@ namespace BrowserLog.TinyServer
 
         public override string ToString()
         {
-            var builder = new StringBuilder("HTTP/1.1 " + _statusCode + " OK\r\n");
+            var builder = new StringBuilder("HTTP/1.1 " + _statusCode + " " + _statusDescription +"\r\n");
 
             if (Content != null)
             {

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BrowserLog.TinyServer
 {
-    public class MulticastChannel
+    public class MulticastChannel : IChannel
     {
-        private IList<HttpResponseChannel> _channels = new List<HttpResponseChannel>();
+        private readonly IList<IChannel> _channels = new List<IChannel>();
         private readonly object _syncRoot = new object();
 
-        public void AddChannel(HttpResponseChannel channel)
+        public void AddChannel(IChannel channel)
         {
             lock (_syncRoot)
             {
@@ -24,7 +24,7 @@ namespace BrowserLog.TinyServer
         {
             lock (_syncRoot)
             {
-                var closeChannels = new List<HttpResponseChannel>();
+                var closeChannels = new List<IChannel>();
                 foreach (var channel in _channels)
                 {
                     try
