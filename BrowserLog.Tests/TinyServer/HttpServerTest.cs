@@ -18,7 +18,6 @@ namespace BrowserLog.TinyServer
         {
             // given
             var port = FindFreeTcpPort();
-            bool called = false;
             var server = new HttpServer("127.0.0.1", port, ctx =>
             {
                 var response = new HttpResponse(200, "OK");
@@ -27,7 +26,6 @@ namespace BrowserLog.TinyServer
                 response.AddHeader("Date", "Sun, 27 Sep 2015 20:19:46 GMT");
                 response.Content = "It works";
                 ctx.ResponseChannel.Send(response);
-                //ctx.ResponseChannel.Close();
             });
             // when
             Task.Run(() => server.Run());
@@ -35,7 +33,6 @@ namespace BrowserLog.TinyServer
             // then
             var httpClient = new HttpClient();
             var urlPrefix = "http://localhost:" + port + "/";
-            Console.Out.WriteLine("server " + urlPrefix);
             var content = await httpClient.GetStringAsync(urlPrefix);
             Check.That(content).Contains("It works");
         }

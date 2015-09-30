@@ -9,6 +9,6 @@ namespace BrowserLog.TinyServer
 {
     public interface IChannel
     {
-        void Send(object message);
+        void Send(ServerSentEvent message);
     }
 }

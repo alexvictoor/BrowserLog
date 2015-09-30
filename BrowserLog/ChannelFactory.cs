@@ -9,7 +9,7 @@ namespace BrowserLog
 {
     public class ChannelFactory
     {
-        public IChannel Create(string host, int port)
+        public virtual IChannel Create(string host, int port)
         {
             var channel = new MulticastChannel();
             Action<HttpContext> handler = ctx =>

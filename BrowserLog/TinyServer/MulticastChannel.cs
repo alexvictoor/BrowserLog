@@ -20,7 +20,7 @@ namespace BrowserLog.TinyServer
             }
         }
 
-        public void Send(object message)
+        public void Send(ServerSentEvent message)
         {
             lock (_syncRoot)
             {

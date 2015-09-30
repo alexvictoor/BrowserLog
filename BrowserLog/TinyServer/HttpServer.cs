@@ -16,11 +16,11 @@ namespace BrowserLog.TinyServer
         private readonly Action<HttpContext> _handler;
         private volatile bool _running;
 
-        public HttpServer(string hostName, int port, Action<HttpContext> handler)
+        public HttpServer(string ip, int port, Action<HttpContext> handler)
         {
             _port = port;
             _handler = handler;
-            _host = IPAddress.Parse(hostName);
+            _host = IPAddress.Parse(ip);
         }
 
         public void Run()

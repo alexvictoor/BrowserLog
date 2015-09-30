@@ -48,7 +48,6 @@ namespace BrowserLog.TinyServer
                 builder.Append(Content);
             }
 
-            Console.Out.WriteLine("Sending;\n" + builder.ToString());
             return builder.ToString();
         }
     }

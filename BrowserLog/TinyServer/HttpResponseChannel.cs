@@ -16,6 +16,11 @@ namespace BrowserLog.TinyServer
             _tcpClient = tcpClient;
         }
 
+        public void Send(ServerSentEvent sse)
+        {
+            Send((object)sse);
+        }
+
         public void Send(object obj)
         {
             var content = Encoding.UTF8.GetBytes(obj.ToString());

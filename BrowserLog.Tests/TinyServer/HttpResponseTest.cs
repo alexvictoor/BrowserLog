@@ -34,46 +34,5 @@ namespace BrowserLog.TinyServer
             Check.That(textResponse).Contains("DummyHeader: DummyValue");
         }
 
-        [Test]
-        public void Shoud()
-        {
-            var multicast = new MulticastChannel();
-
-            Action<HttpContext> handler = ctx =>
-            {
-
-                Console.Out.WriteLine("Before read request");
-
-                var httpResponse = new HttpResponse(200, "OK");
-                if (ctx.HttpRequest.Uri != "/stream")
-                {
-                    httpResponse.AddHeader("Content-Type", "text/html");
-                    httpResponse.AddHeader("Connection", "close");
-                    httpResponse.Content = "<html><body><h1>Coucou</h1></body></html>";
-                    ctx.ResponseChannel.Send(httpResponse);
-                }
-                else
-                {
-                    httpResponse.AddHeader("Content-Type", "text/event-stream");
-                    httpResponse.AddHeader("Cache-Control", "no-cache");
-                    httpResponse.AddHeader("Connection", "keep-alive");
-                    httpResponse.AddHeader("Access-Control-Allow-Origin", "*");
-                    ctx.ResponseChannel.Send(httpResponse);
-                    multicast.AddChannel(ctx.ResponseChannel);
-                }
-            };
-
-            new HttpServer("127.0.0.1", 8081, handler).Run();
-            Console.Out.WriteLine("Ready");
-            for (int i = 0; i < 4000; i++)
-            {
-                Console.Out.WriteLine("Sending msg " + i);
-                //multicast.Send("id: " + i + "\ndata: " + DateTime.Now + "\n\n");
-                multicast.Send(new ServerSentEvent(type: "debug", data: DateTime.Now.ToLongTimeString()));
-                Thread.Sleep(1000);
-            }
-            Console.In.Read();
-        
-        }
     }
 }
