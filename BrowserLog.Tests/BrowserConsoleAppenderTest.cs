@@ -59,5 +59,18 @@ namespace BrowserLog
             // then
             _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().Contains("Everything's fine")));
         }
+
+        [Test]
+        public void Should_send_an_sse_message_wih_a_type_matching_received_logging_event_level()
+        {
+            // given
+            _appender.Active = true;
+            _appender.ActivateOptions();
+            BasicConfigurator.Configure(_appender);
+            // when
+            LogManager.GetLogger(GetType()).Warn("level?");
+            // then
+            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")));
+        }
     }
 }
