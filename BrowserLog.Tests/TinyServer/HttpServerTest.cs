@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NFluent;
 using NUnit.Framework;
@@ -25,7 +26,7 @@ namespace BrowserLog.TinyServer
                 response.AddHeader("Connection", "close");
                 response.AddHeader("Date", "Sun, 27 Sep 2015 20:19:46 GMT");
                 response.Content = "It works";
-                ctx.ResponseChannel.Send(response);
+                ctx.ResponseChannel.Send(response, CancellationToken.None);
             });
             // when
             Task.Run(() => server.Run());

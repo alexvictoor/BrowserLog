@@ -18,10 +18,17 @@ namespace BrowserLog.Demo
 
             var logger = LogManager.GetLogger(typeof(Program));
             logger.Info("Hello this is a log from a server-side process!");
-            for (int i = 0; i < 100; i++)
+            logger.Warn("Hello this is a log from a server-side process!");
+            logger.Error("Hello this is a log from a server-side process!");
+            Thread.Sleep(1000);
+            for (int i = 0; i < 100000; i++)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 logger.DebugFormat("... and here is another one again ({0})", i);
+                logger.Info("Hello this is a log from a server-side process!");
+                Thread.Sleep(100);
+                logger.Warn("Hello this is a log from a server-side process!");
+                logger.Error("Hello this is a log from a server-side process!");
             }
         }
     }

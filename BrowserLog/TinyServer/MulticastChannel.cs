@@ -3,16 +3,17 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BrowserLog.TinyServer
 {
-    public class MulticastChannel : IChannel
+    public class MulticastChannel : IEventChannel
     {
-        private readonly IList<IChannel> _channels = new List<IChannel>();
+        private readonly IList<IEventChannel> _channels = new List<IEventChannel>();
         private readonly object _syncRoot = new object();
 
-        public void AddChannel(IChannel channel)
+        public void AddChannel(IEventChannel channel)
         {
             lock (_syncRoot)
             {
@@ -24,7 +25,7 @@ namespace BrowserLog.TinyServer
         {
             lock (_syncRoot)
             {
-                var closeChannels = new List<IChannel>();
+                var closeChannels = new List<IEventChannel>();
                 foreach (var channel in _channels)
                 {
                     try

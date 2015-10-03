@@ -13,7 +13,7 @@ namespace BrowserLog
     {
 
         private readonly ChannelFactory _channelFactory;
-        private IChannel _channel;
+        private IEventChannel _channel;
 
         public bool Active { get; set; }
         public int Port { get; set; }

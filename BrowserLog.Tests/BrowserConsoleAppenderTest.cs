@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using BrowserLog.TinyServer;
 using log4net;
 using log4net.Config;
 using log4net.Layout;
+using NFluent;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -14,7 +17,7 @@ namespace BrowserLog
 {
     public class BrowserConsoleAppenderTest
     {
-        private IChannel _channel;
+        private IEventChannel _channel;
         private BrowserConsoleAppender _appender;
 
         [SetUp]
@@ -23,7 +26,7 @@ namespace BrowserLog
             var layout = new PatternLayout("%-4timestamp [%thread] %-5level %logger %ndc - %message%newline");
 
             var channelFactory = Substitute.For<ChannelFactory>();
-            _channel = Substitute.For<IChannel>();
+            _channel = Substitute.For<IEventChannel>();
             channelFactory.Create("localhost", 8765).Returns(_channel);
             _appender = new BrowserConsoleAppender(channelFactory)
             {

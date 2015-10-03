@@ -35,13 +35,14 @@ namespace BrowserLog.TinyServer
                 while (_running)
                 {
                     var tcpClient = await server.AcceptTcpClientAsync();
+                    var cancelTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5)); // todo configuration
                     Task.Run(async () =>
                     {
                         var source = tcpClient.GetStream();
-                        var lines = await new LineParser().Parse(source, CancellationToken.None);
+                        var lines = await new LineParser().Parse(source, cancelTokenSource.Token);
                         var httpRequest = HttpRequest.Parse(lines);
                         var responseChannel = new HttpResponseChannel(tcpClient);
-                        var httpContext = new HttpContext(httpRequest, responseChannel);
+                        var httpContext = new HttpContext(httpRequest, responseChannel, cancelTokenSource.Token);
                         _handler(httpContext);
                     });
                 }

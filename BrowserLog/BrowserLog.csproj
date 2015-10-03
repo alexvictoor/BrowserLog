@@ -45,18 +45,32 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BrowserConsoleAppender.cs" />
     <Compile Include="ChannelFactory.cs" />
+    <Compile Include="Static.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Static.resx</DependentUpon>
+    </Compile>
     <Compile Include="TinyServer\HttpContext.cs" />
     <Compile Include="TinyServer\HttpRequest.cs" />
     <Compile Include="TinyServer\HttpResponse.cs" />
     <Compile Include="TinyServer\HttpResponseChannel.cs" />
     <Compile Include="TinyServer\HttpServer.cs" />
-    <Compile Include="TinyServer\IChannel.cs" />
+    <Compile Include="TinyServer\IEventChannel.cs" />
     <Compile Include="TinyServer\LineParser.cs" />
     <Compile Include="TinyServer\MulticastChannel.cs" />
     <Compile Include="TinyServer\ServerSentEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BrowserLog.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Static.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Static.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
