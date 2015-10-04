@@ -64,7 +64,7 @@ namespace BrowserLog
         }
 
         [Test]
-        public void Should_send_an_sse_message_wih_a_type_matching_received_logging_event_level()
+        public void Should_send_an_sse_message_with_a_type_matching_received_logging_event_level()
         {
             // given
             _appender.Active = true;
@@ -74,6 +74,40 @@ namespace BrowserLog
             LogManager.GetLogger(GetType()).Warn("level?");
             // then
             _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")));
+        }
+
+        [Test]
+        public void Should_send_an_sse_message_without_type_when_received_logging_event_level_has_no_matching_level_on_browser()
+        {
+            // given
+            _appender.Active = true;
+            _appender.ActivateOptions();
+            BasicConfigurator.Configure(_appender);
+            // when
+            LogManager.GetLogger(GetType()).Fatal("No fatal logs on the browser");
+            // then
+            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("data:")));
+        }
+
+        [Test]
+        public void Should_send_a_multiline_sse_message_received_logging_event_for_an_exception()
+        {
+            // given
+            _appender.Active = true;
+            _appender.ActivateOptions();
+            BasicConfigurator.Configure(_appender);
+            // when
+            LogManager.GetLogger(GetType()).Warn("An error has occured", new Exception());
+            // then
+            var lineSeparator = new string[] {"\r\n"};
+            _channel.Received().Send(
+                Arg.Is<ServerSentEvent>(
+                    evt => evt.ToString()
+                            .Split(lineSeparator, StringSplitOptions.RemoveEmptyEntries)
+                            .Skip(1)
+                            .All(l => l.StartsWith("data:"))
+                        )
+                    );
         }
     }
 }
