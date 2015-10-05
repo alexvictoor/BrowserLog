@@ -33,7 +33,8 @@ namespace BrowserLog
                     httpResponse.AddHeader("Cache-Control", "no-cache");
                     httpResponse.AddHeader("Connection", "keep-alive");
                     httpResponse.AddHeader("Access-Control-Allow-Origin", "*");
-                    ctx.ResponseChannel.Send(httpResponse, ctx.Token);
+                    ctx.ResponseChannel.Send(httpResponse, ctx.Token)
+                        .ContinueWith(t => ctx.ResponseChannel.Send(new ServerSentEvent("INFO", "Connected successfully on LOG stream from " + host + ":" + port )));
                     channel.AddChannel(ctx.ResponseChannel);
                 }
             };
