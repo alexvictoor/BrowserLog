@@ -23,7 +23,7 @@ namespace BrowserLog
         {
             _channelFactory = new ChannelFactory();
             Active = true;
-            Host = "+";
+            Host = "127.0.0.1";
         }
 
         // for testing
