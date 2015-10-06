@@ -25,6 +25,7 @@ namespace BrowserLog
         {
             _channelFactory = new ChannelFactory();
             Active = true;
+            Port = 8765;
         }
 
         // for testing
