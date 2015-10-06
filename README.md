@@ -13,7 +13,8 @@ It relies on .NET 4.5 and log4net, no other external dependencies!
 Usage
 -----
 
-Activation requires 3 steps:
+Activation requires 3 steps:  
+
 1. configuration of your build to add a dependency to this project 
 2. configuration of the appender in the log4net configuration
 3. inclusion of a javascript snippet in your HTML code to open a SSE connection
