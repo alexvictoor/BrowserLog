@@ -61,11 +61,40 @@ namespace BrowserLog {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to coucou !.
+        ///   Looks up a localized string similar to (function() {
+        ///    if (typeof (EventSource) !== &quot;undefined&quot;) {
+        ///        var scripts = document.getElementsByTagName(&apos;script&apos;);
+        ///        var index = scripts.length - 1;
+        ///        var myScript = scripts[index];
+        ///        var scriptUrl = myScript.src;
+        ///        var streamUrl = scriptUrl.substring(0, scriptUrl.length - 13) + &quot;stream&quot;; // 13 being the length of string &quot;BrowserLog.js&quot;
+        ///        var source = new EventSource(streamUrl);
+        ///        source.onmessage = function(event) {
+        ///           console.log(event.data);        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string BrowserLog {
             get {
                 return ResourceManager.GetString("BrowserLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;BrowserLog on {0}&lt;/h1&gt;
+        ///    &lt;p&gt;
+        ///        Open the console of your browser to see the logs from this server.&lt;br&gt;
+        ///        You can use this &lt;a href=&quot;javascript: (function () { var jsCode = document.createElement(&apos;script&apos;); jsCode.setAttribute(&apos;src&apos;, &apos;http://{0}:8081/BrowserLog.js&apos;); document.body.appendChild(jsCode); }());&quot;&gt;Bookmarklet&lt;/a&gt; to open a stre [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string homepage {
+            get {
+                return ResourceManager.GetString("homepage", resourceCulture);
             }
         }
     }

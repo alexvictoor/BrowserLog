@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Resources;
 using System.Text;
@@ -15,16 +16,25 @@ namespace BrowserLog
         {
             var channel = new MulticastChannel();
             var resourceManager = new ResourceManager("BrowserLog.Static", Assembly.GetExecutingAssembly());
-            var js = resourceManager.GetObject("BrowserLog");
+            var js = resourceManager.GetObject("BrowserLog") as string;
+            var htmlTemplate = resourceManager.GetObject("homepage") as string;
+            var html = htmlTemplate.Replace("HOST", Dns.GetHostName()).Replace("PORT", port.ToString());
 
             Action<HttpContext> handler = ctx =>
             {
                 var httpResponse = new HttpResponse(200, "OK");
-                if (ctx.HttpRequest.Uri != "/stream")
+                if (ctx.HttpRequest.Uri == "/")
+                {
+                    httpResponse.AddHeader("Content-Type", "text/html");
+                    httpResponse.AddHeader("Connection", "close");
+                    httpResponse.Content = html;
+                    ctx.ResponseChannel.Send(httpResponse, ctx.Token).ContinueWith(t => ctx.ResponseChannel.Close());
+                } 
+                else if (ctx.HttpRequest.Uri == "/BrowserLog.js")
                 {
                     httpResponse.AddHeader("Content-Type", "text/javascript");
                     httpResponse.AddHeader("Connection", "close");
-                    httpResponse.Content = js as string;
+                    httpResponse.Content = js;
                     ctx.ResponseChannel.Send(httpResponse, ctx.Token).ContinueWith(t => ctx.ResponseChannel.Close());
                 }
                 else

@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BrowserLog.js" />
+    <Content Include="homepage.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Static.resx">

@@ -9,7 +9,7 @@
 
   <appender name="WEB" type="BrowserLog.BrowserConsoleAppender, BrowserLog">
     <Active>true</Active>
-    <Port>8081</Port>
+    <Port>8082</Port>
     <layout type="log4net.Layout.PatternLayout">
       <conversionPattern value="%date [%thread] %-5level %logger - %message%newline" />
     </layout>
