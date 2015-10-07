@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/alexvictoor/BrowserLog</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>BrowserLog is a log appender that let you use your browser console as a live log viewer</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>html5 sse log4net logger log</tags>
+  </metadata>
+</package>

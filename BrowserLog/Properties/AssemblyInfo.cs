@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("BrowserLog")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("log4net appender based on HTML5 SSE")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Alexandre Victoor")]
 [assembly: AssemblyProduct("BrowserLog")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
