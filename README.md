@@ -28,7 +28,7 @@ Below an XML fragment example that shows how to configure logback on the server 
 <log4net>
   ...
   <appender name="WEB" type="BrowserLog.BrowserConsoleAppender, BrowserLog">
-    <Host>192.168.0.7</Host> <!-- Optional, the IP address on which the SSE server will be bound. If not specified try to detect the locla IP of the host by itself -->
+    <Host>192.168.0.7</Host> <!-- Optional, the IP address on which the SSE server will be bound. If not specified try to detect the local IP of the host by itself -->
     <Port>8082</Port> <!-- Optional, this is the port on which the HTTP SSE server will listen. Default port is 8765 -->
     <Active>true</Active> <!-- Optional, if false the appender is disabled. Default value is true -->
     <layout type="log4net.Layout.PatternLayout">
@@ -39,6 +39,7 @@ Below an XML fragment example that shows how to configure logback on the server 
 ```
 
 In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js".  
+
 A simple way to achieve that is to use a bookmarklet. If you use your browser to display the 'home page' of the embedded HTTP SSE server (at URL http:// HOST : PORT where HOST & PORT are the parameters you have used in the log4net configuration). You will get an ugly blank page, the main purpose of this page is to test your configuration but most of all to bring you a ready to use bookmarklet. This bookmarklet looks like code fragment below:
 
     (function () { 
@@ -46,6 +47,8 @@ A simple way to achieve that is to use a bookmarklet. If you use your browser to
         jsCode.setAttribute('src', 'http://HOST:PORT/BrowserLog.js'); 
         document.body.appendChild(jsCode); 
     }());
+
+Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" 
 
 Disclaimer
 ---------
