@@ -39,7 +39,7 @@ Below an XML fragment example that shows how to configure logback on the server 
 ```
 
 In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js".  
-A simple way to achieve that is to use a bookmarklet. If you use your browser to display the 'home page' of the embedded HTTP SSE server, you will see an ugly white page. However on this ugly blank page you will see a ready to use bookmarklet whose code looks like that:
+A simple way to achieve that is to use a bookmarklet. If you use your browser to display the 'home page' of the embedded HTTP SSE server (at URL http:// HOST : PORT where HOST & PORT are the parameters you have used in the log4net configuration). You will get an ugly blank page, the main purpose of this page is to test your configuration and to bring you a ready to use bookmarklet. This bookmarklet looks like code fragment below:
 
     (function () { 
         var jsCode = document.createElement('script'); 
