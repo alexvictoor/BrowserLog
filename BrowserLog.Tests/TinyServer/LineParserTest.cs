@@ -58,6 +58,7 @@ namespace BrowserLog.TinyServer
             var parsingTask = Task.Run(() => parser.Parse(stream, source.Token));
             await Task.Delay(200);
             source.Cancel();
+            await Task.Delay(200);
             var lines = parsingTask.Result;
             // then 
             Check.That(lines).HasSize(1);
