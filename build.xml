@@ -15,7 +15,7 @@
   <ItemGroup>
     <AllProjects Include="$(MSBuildProjectDirectory)\*.csproj" />
     <TestAssemblies Include="$(MSBuildProjectDirectory)\*\bin\debug\*.Tests.dll" />
-    <CoverageFiles Include="coverage.xml" />
+    <CoverageFiles Include="*.coverage.xml" />
     <SourceDirectories Include="$(MSBuildProjectDirectory)" />
   </ItemGroup>
   
@@ -35,11 +35,11 @@
   </Target>
 
   <Target Name="Coverage" DependsOnTargets="Clean;Compile">
-    <Delete Files="coverage.xml" />
+    <Delete Files="*.coverage.xml" />
     <Delete Files="TestResult.xml" />
     
     <!-- /domain=single is not support by the NUnit msbuild task, and it is required for OpenCover coverage test -->
-    <Exec Command="$(OpenCover-ToolPath)OpenCover.Console.exe -register:user -target:&quot;$(NUnit-ToolPath)nunit-console-x86.exe&quot; -targetargs:&quot;/noshadow @(TestAssemblies) /domain:single&quot; -filter:&quot;$(OpenCover-AssemblyFilter)&quot; -output:coverage.xml" />
+    <Exec Command="$(OpenCover-ToolPath)OpenCover.Console.exe -register:user -target:&quot;$(NUnit-ToolPath)nunit-console-x86.exe&quot; -targetargs:&quot;/noshadow %(TestAssemblies.Identity) /domain:single&quot; -filter:&quot;$(OpenCover-AssemblyFilter)&quot; -output:%(TestAssemblies.FileName).coverage.xml" />
     <!-- <Delete Files=".\coveragereport" /> -->
     <!--<Exec Command="$(ReportGenerator-ToolPath)ReportGenerator.exe coverage.xml &quot;coveragereport&quot; &quot;-historydir:history&quot; html" />
     <Exec Command="$(ReportGenerator-ToolPath)ReportGenerator.exe coverage.xml &quot;coveragereport&quot; xmlsummary" />-->
