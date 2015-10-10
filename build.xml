@@ -1,0 +1,55 @@
+
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <!-- Application Configurations -->
+  <PropertyGroup>
+    <SolutionFile>BrowserLog.sln</SolutionFile>
+    <NUnit-ToolPath>packages\NUnit.Runners.2.6.4\tools\</NUnit-ToolPath>
+    <OpenCover-ToolPath>packages\OpenCover.4.6.166\tools\</OpenCover-ToolPath>
+    <ReportGenerator-ToolPath>packages\ReportGenerator.2.3.2.0\tools\</ReportGenerator-ToolPath>
+    <OpenCover-AssemblyFilter>+[BrowserLog]*</OpenCover-AssemblyFilter>
+  </PropertyGroup>
+
+  <UsingTask TaskName="ReportGenerator" AssemblyFile="$(ReportGenerator-ToolPath)\ReportGenerator.exe" />  
+
+  <ItemGroup>
+    <AllProjects Include="$(MSBuildProjectDirectory)\*.csproj" />
+    <TestAssemblies Include="$(MSBuildProjectDirectory)\*\bin\debug\*.Tests.dll" />
+    <CoverageFiles Include="coverage.xml" />
+    <SourceDirectories Include="$(MSBuildProjectDirectory)" />
+  </ItemGroup>
+  
+  
+
+  <Target Name="Clean">
+    <MSBuild Projects="$(SolutionFile)" Targets="Clean" />
+  </Target>
+
+  <Target Name="Compile">
+    <MSBuild Projects="$(SolutionFile)" Targets="Build" Properties="WarningLevel=1" />
+  </Target>
+
+  <Target Name="Test" DependsOnTargets="Clean;Compile">
+    <!-- /domain=single is not support by the NUnit msbuild task, and it is required for OpenCover coverage test -->
+    <Exec Command="$(NUnit-ToolPath)nunit-console-x86.exe @(TestAssemblies) /nologo /noshadow /domain=single /output=test-results.xml" />
+  </Target>
+
+  <Target Name="Coverage" DependsOnTargets="Clean;Compile">
+    <Delete Files="coverage.xml" />
+    <Delete Files="TestResult.xml" />
+    
+    <!-- /domain=single is not support by the NUnit msbuild task, and it is required for OpenCover coverage test -->
+    <Exec Command="$(OpenCover-ToolPath)OpenCover.Console.exe -register:user -target:&quot;$(NUnit-ToolPath)nunit-console-x86.exe&quot; -targetargs:&quot;/noshadow @(TestAssemblies) /domain:single&quot; -filter:&quot;$(OpenCover-AssemblyFilter)&quot; -output:coverage.xml" />
+    <!-- <Delete Files=".\coveragereport" /> -->
+    <!--<Exec Command="$(ReportGenerator-ToolPath)ReportGenerator.exe coverage.xml &quot;coveragereport&quot; &quot;-historydir:history&quot; html" />
+    <Exec Command="$(ReportGenerator-ToolPath)ReportGenerator.exe coverage.xml &quot;coveragereport&quot; xmlsummary" />-->
+
+    <ReportGenerator ReportFiles="@(CoverageFiles)" TargetDirectory="report" ReportTypes="Html" SourceDirectories="@(SourceDirectories)" HistoryDirectory="history"  />
+
+
+    <!-- <Delete Files="coverage.xml" /> -->
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Clean;Compile;Test;" />
+
+</Project>
