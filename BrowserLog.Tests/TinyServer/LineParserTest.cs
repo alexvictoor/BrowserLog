@@ -45,7 +45,7 @@ namespace BrowserLog.TinyServer
         }
 
         [Test]
-        [Timeout(1000)]
+        [Timeout(2000)]
         public async void Should_parse_lines_till_cancelled()
         {
             // given
@@ -58,11 +58,9 @@ namespace BrowserLog.TinyServer
             var parsingTask = Task.Run(() => parser.Parse(stream, source.Token));
             await Task.Delay(200);
             source.Cancel();
-            await Task.Delay(200);
-            var lines = parsingTask.Result;
-            // then 
-            Check.That(lines).HasSize(1);
-            Check.That(lines.ElementAt(0)).IsEqualTo("first line");
+            await Task.Delay(1000);
+            // then
+            Check.That(parsingTask.Status).IsNotEqualTo(TaskStatus.Running);
         }
     }
 }
