@@ -43,7 +43,7 @@
   <ItemGroup>
     <AllProjects Include="$(MSBuildProjectDirectory)\*.csproj" />
     <TestAssemblies Include="$(MSBuildProjectDirectory)\*\bin\debug\*.Tests.dll" />
-    <CoverageFiles Include="*.coverage.xml" />
+    <CoverageFiles Include=".build\*.coverage.xml" />
     <SourceDirectories Include="$(MSBuildProjectDirectory)" />
   </ItemGroup>
 
