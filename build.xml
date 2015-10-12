@@ -41,25 +41,17 @@
   <UsingTask TaskName="ReportGenerator" AssemblyFile="$(ReportGenerator-ToolPath)\ReportGenerator.exe" />  
 
   <ItemGroup>
-    <AllProjects Include="$(MSBuildProjectDirectory)\*.csproj" />
+    <!-- patterns may change depending of your solution layout -->
     <TestAssemblies Include="$(MSBuildProjectDirectory)\*\bin\debug\*.Tests.dll" />
     <CoverageFiles Include=".build\*.coverage.xml" />
     <SourceDirectories Include="$(MSBuildProjectDirectory)" />
   </ItemGroup>
 
   <Target Name="Clean">
-    <MSBuild Projects="@(AllProjects)" Targets="Clean" />
-  </Target>
-
-  <Target Name="Compile">
-    <MSBuild Projects="@(AllProjects)" Targets="Build" Properties="WarningLevel=1" />
-  </Target>
-
-  <Target Name="SonarClean">
     <MSBuild Projects="$(SolutionFile)" Targets="Clean" />
   </Target>
 
-  <Target Name="SonarCompile">
+  <Target Name="Compile">
     <MSBuild Projects="$(SolutionFile)" Targets="Build" Properties="WarningLevel=1" />
   </Target>
 
@@ -77,7 +69,6 @@
     <Exec Command="$(OpenCover-ToolPath)OpenCover.Console.exe -register:user -target:&quot;$(NUnit-ToolPath)nunit-console-x86.exe&quot; -targetargs:&quot;/noshadow %(TestAssemblies.Identity) /domain:single&quot; -filter:&quot;$(OpenCover-AssemblyFilter)&quot; -output:.build\%(TestAssemblies.FileName).coverage.xml" />
   </Target>
 
-  <Target Name="SonarCoverage" DependsOnTargets="SonarClean;SonarCompile;DoCoverage" />
   <Target Name="Coverage" DependsOnTargets="Clean;Compile;DoCoverage" />
 
   <!--
@@ -105,7 +96,7 @@
 
     <Exec Command="MSBuild.SonarQube.Runner.exe begin /k:&quot;$(SonarKey)&quot; /n:&quot;$(SonarName)&quot; /v:&quot;$(SonarVersion)&quot; /d:sonar.cs.opencover.reportsPaths=&quot;$(ReportPaths)&quot;" />
   
-    <CallTarget Targets="SonarCoverage"/>
+    <CallTarget Targets="Coverage"/>
 
     <CallTarget Targets="SonarEnd"/>
   </Target>
