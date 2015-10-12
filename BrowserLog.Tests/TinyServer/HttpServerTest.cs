@@ -29,7 +29,7 @@ namespace BrowserLog.TinyServer
                 ctx.ResponseChannel.Send(response, CancellationToken.None);
             });
             // when
-            Task.Run(() => server.Run());
+            var task = Task.Run(() => server.Run());
             
             // then
             var httpClient = new HttpClient();
