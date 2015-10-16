@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -15,9 +16,9 @@ namespace BrowserLog
         public virtual IEventChannel Create(string host, int port)
         {
             var channel = new MulticastChannel();
-            var resourceManager = new ResourceManager("BrowserLog.Static", Assembly.GetExecutingAssembly());
-            var js = resourceManager.GetObject("BrowserLog") as string;
-            var htmlTemplate = resourceManager.GetObject("homepage") as string;
+
+            var js = GetContent(Assembly.GetExecutingAssembly().GetManifestResourceStream("BrowserLog.BrowserLog.js"));
+            var htmlTemplate = GetContent(Assembly.GetExecutingAssembly().GetManifestResourceStream("BrowserLog.homepage.html"));
             var html = htmlTemplate.Replace("HOST", Dns.GetHostName()).Replace("PORT", port.ToString());
 
             Action<HttpContext> handler = ctx =>
@@ -50,6 +51,14 @@ namespace BrowserLog
             };
             new HttpServer(host, port, handler).Run();
             return channel;
+        }
+
+        private string GetContent(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
         }
     }
 }
