@@ -50,6 +50,27 @@ A simple way to achieve that is to use a bookmarklet. If you use your browser to
 
 Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" 
 
+Why SSE?
+--------
+[Server Sent Events](https://en.wikipedia.org/wiki/Server-sent_events) while being quite simple to implement, allows to stream data form a server to a browser leveraging on the HTTP protocol, just the HTTP protocol. Resources required on the server side are also very low. Simply put, to stream text log it makes no sens to use WebSocket which is much more complex.   
+All newest browsers implement SSE, except IE... (no troll intended). Chrome even implements a nice reconnection strategy. Hence when you are using a Chrome console as a log viewer, log streams will survive to a restart of a server side process, reconnection are handled automatically by the browser.
+
+Multiple server-side process?
+-----------------------------
+Let's say that you are working on a web application in a micro service architecture. You might need to get logs from a lot of services. You could use a bookmarklet for each process but you can also create your own bookmarklet for a given environment.
+Below an example:
+
+    (function () { 
+        var jsCode = document.createElement('script');                        // open a first stream  
+        jsCode.setAttribute('src', 'http://HOST1:PORT1/BrowserLog.js'); 
+        document.body.appendChild(jsCode); 
+        jsCode = document.createElement('script'); 
+        jsCode.setAttribute('src', 'http://HOST2:PORT2/BrowserLog.js');      // a second one
+        document.body.appendChild(jsCode);
+        ...                                                                  // as many as you need
+    }());
+
+
 Disclaimer
 ---------
 1. For obvious security concerns, **do not activate it in production!**  
