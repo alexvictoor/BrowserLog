@@ -17,9 +17,9 @@ namespace BrowserLog.TinyServer
             _tcpClient = tcpClient;
         }
 
-        public void Send(ServerSentEvent sse)
+        public void Send(ServerSentEvent sse, CancellationToken token)
         {
-            Send((object)sse, CancellationToken.None);
+            Send((object)sse, token);
         }
 
         public Task Send(object obj, CancellationToken token)

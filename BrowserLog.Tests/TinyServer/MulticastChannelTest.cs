@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -17,11 +18,11 @@ namespace BrowserLog.TinyServer
             // given
             var multicastChannel = new MulticastChannel();
             var channel = Substitute.For<IEventChannel>();
-            multicastChannel.AddChannel(channel);
+            multicastChannel.AddChannel(channel, CancellationToken.None);
             // when
-            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever"));
+            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever"), CancellationToken.None);
             // then
-            channel.Received().Send(Arg.Any<ServerSentEvent>());
+            channel.Received().Send(Arg.Any<ServerSentEvent>(), CancellationToken.None);
         }
 
         [Test]
@@ -30,13 +31,13 @@ namespace BrowserLog.TinyServer
             // given
             var multicastChannel = new MulticastChannel();
             var channel = Substitute.For<IEventChannel>();
-            channel.When(c => c.Send(Arg.Any<ServerSentEvent>())).Do(x => { throw new Exception(); });
-            multicastChannel.AddChannel(channel);
+            channel.When(c => c.Send(Arg.Any<ServerSentEvent>(), CancellationToken.None)).Do(x => { throw new Exception(); });
+            multicastChannel.AddChannel(channel, CancellationToken.None);
             // when
-            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever")); // exception raised
-            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever")); // channel should be removed
+            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever"), CancellationToken.None); // exception raised
+            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever"), CancellationToken.None); // channel should be removed
             // then
-            channel.Received(1).Send(Arg.Any<ServerSentEvent>());
+            channel.Received(1).Send(Arg.Any<ServerSentEvent>(), CancellationToken.None);
         }
 
         [Test]
@@ -45,11 +46,11 @@ namespace BrowserLog.TinyServer
             // given
             var multicastChannel = new MulticastChannel();
             var channel = Substitute.For<IEventChannel>();
-            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever"));
+            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever"), CancellationToken.None);
             // when
-            multicastChannel.AddChannel(channel);
+            multicastChannel.AddChannel(channel, CancellationToken.None);
             // then
-            channel.Received().Send(Arg.Any<ServerSentEvent>());
+            channel.Received().Send(Arg.Any<ServerSentEvent>(), CancellationToken.None);
         }
 
         [Test]
@@ -58,14 +59,14 @@ namespace BrowserLog.TinyServer
             // given
             var multicastChannel = new MulticastChannel(2);
             var channel = Substitute.For<IEventChannel>();
-            multicastChannel.Send(new ServerSentEvent("DEBUG", "first"));
-            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever2"));
-            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever3"));
+            multicastChannel.Send(new ServerSentEvent("DEBUG", "first"), CancellationToken.None);
+            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever2"), CancellationToken.None);
+            multicastChannel.Send(new ServerSentEvent("DEBUG", "whatever3"), CancellationToken.None);
             // when
-            multicastChannel.AddChannel(channel);
+            multicastChannel.AddChannel(channel, CancellationToken.None);
             // then
-            channel.Received(2).Send(Arg.Any<ServerSentEvent>());
-            channel.DidNotReceive().Send(Arg.Is<ServerSentEvent>(e => e.ToString().Contains("first")));
+            channel.Received(2).Send(Arg.Any<ServerSentEvent>(), CancellationToken.None);
+            channel.DidNotReceive().Send(Arg.Is<ServerSentEvent>(e => e.ToString().Contains("first")), CancellationToken.None);
         }
     }
 }

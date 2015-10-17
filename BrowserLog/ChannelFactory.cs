@@ -48,8 +48,8 @@ namespace BrowserLog
                         .ContinueWith(t =>
                         {
                             ctx.ResponseChannel.Send(new ServerSentEvent("INFO",
-                                "Connected successfully on LOG stream from " + host + ":" + port));
-                            channel.AddChannel(ctx.ResponseChannel);
+                                "Connected successfully on LOG stream from " + host + ":" + port), ctx.Token);
+                            channel.AddChannel(ctx.ResponseChannel, ctx.Token);
                         });      
                 }
             };

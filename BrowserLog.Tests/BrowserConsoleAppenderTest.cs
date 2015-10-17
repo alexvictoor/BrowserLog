@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BrowserLog.TinyServer;
 using log4net;
@@ -27,12 +28,13 @@ namespace BrowserLog
 
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
-            channelFactory.Create("localhost", 8765).Returns(_channel);
+            channelFactory.Create("localhost", 8765, 1).Returns(_channel);
             _appender = new BrowserConsoleAppender(channelFactory)
             {
                 Host = "localhost",
                 Port = 8765,
-                Layout = layout
+                Layout = layout,
+                Buffer = 1
             };
             layout.ActivateOptions();
             
@@ -47,7 +49,7 @@ namespace BrowserLog
             // when
             LogManager.GetLogger(GetType()).Info("Everything's fine");
             // then
-            _channel.DidNotReceive().Send(Arg.Any<ServerSentEvent>());
+            _channel.DidNotReceive().Send(Arg.Any<ServerSentEvent>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -60,7 +62,7 @@ namespace BrowserLog
             // when
             LogManager.GetLogger(GetType()).Info("Everything's fine");
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().Contains("Everything's fine")));
+            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().Contains("Everything's fine")), Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -73,7 +75,7 @@ namespace BrowserLog
             // when
             LogManager.GetLogger(GetType()).Warn("level?");
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")));
+            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")), Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -86,7 +88,7 @@ namespace BrowserLog
             // when
             LogManager.GetLogger(GetType()).Fatal("No fatal logs on the browser");
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("data:")));
+            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("data:")), Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -103,11 +105,10 @@ namespace BrowserLog
             _channel.Received().Send(
                 Arg.Is<ServerSentEvent>(
                     evt => evt.ToString()
-                            .Split(lineSeparator, StringSplitOptions.RemoveEmptyEntries)
-                            .Skip(1)
-                            .All(l => l.StartsWith("data:"))
-                        )
-                    );
+                        .Split(lineSeparator, StringSplitOptions.RemoveEmptyEntries)
+                        .Skip(1)
+                        .All(l => l.StartsWith("data:"))
+                    ), Arg.Any<CancellationToken>());
         }
     }
 }

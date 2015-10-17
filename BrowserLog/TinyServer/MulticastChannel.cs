@@ -21,19 +21,19 @@ namespace BrowserLog.TinyServer
             _replayBuffer = new List<ServerSentEvent>(replayBufferSize);
         }
 
-        public void AddChannel(IEventChannel channel)
+        public void AddChannel(IEventChannel channel, CancellationToken token)
         {
             lock (_syncRoot)
             {
                 _channels.Add(channel);
                 foreach (var message in _replayBuffer)
                 {
-                    channel.Send(message);
+                    channel.Send(message, token);
                 }
             }
         }
 
-        public void Send(ServerSentEvent message)
+        public void Send(ServerSentEvent message, CancellationToken token)
         {
             lock (_syncRoot)
             {
@@ -42,7 +42,7 @@ namespace BrowserLog.TinyServer
                 {
                     try
                     {
-                        channel.Send(message);
+                        channel.Send(message, token);
                     }
                     catch (Exception ex)
                     {

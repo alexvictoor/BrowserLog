@@ -10,6 +10,6 @@ namespace BrowserLog.TinyServer
 {
     public interface IEventChannel
     {
-        void Send(ServerSentEvent message);
+        void Send(ServerSentEvent message, CancellationToken token);
     }
 }

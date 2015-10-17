@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BrowserLog.TinyServer;
 using log4net.Appender;
@@ -53,7 +54,7 @@ namespace BrowserLog
         {
             var message = base.RenderLoggingEvent(loggingEvent);
             var sse = new ServerSentEvent(loggingEvent.Level.DisplayName, message);
-            _channel.Send(sse);
+            _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
         }
 
         // hack described here
