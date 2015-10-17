@@ -28,6 +28,10 @@
     
     <!-- assembly filter for opencover -->
     <OpenCover-AssemblyFilter>+[BrowserLog]*</OpenCover-AssemblyFilter>
+    
+    <!-- patterns may change depending of your solution layout -->
+    <CoverageFilesPattern>.build\*.coverage.xml</CoverageFilesPattern>
+    <TestAssembliesPattern>$(MSBuildProjectDirectory)\*\bin\debug\*.Tests.dll</TestAssembliesPattern>
 
     <!-- 
       SonarQube stuff for your solution. You need to have MSBuild.SonarQube.Runner.exe
@@ -41,9 +45,6 @@
   <UsingTask TaskName="ReportGenerator" AssemblyFile="$(ReportGenerator-ToolPath)\ReportGenerator.exe" />  
 
   <ItemGroup>
-    <!-- patterns may change depending of your solution layout -->
-    <TestAssemblies Include="$(MSBuildProjectDirectory)\*\bin\debug\*.Tests.dll" />
-    <CoverageFiles Include=".build\*.coverage.xml" />
     <SourceDirectories Include="$(MSBuildProjectDirectory)" />
   </ItemGroup>
 
@@ -52,31 +53,37 @@
   </Target>
 
   <Target Name="Compile">
-    <MSBuild Projects="$(SolutionFile)" Targets="Build" Properties="WarningLevel=1" />
+    <MSBuild Projects="$(SolutionFile)" Targets="Build" />
   </Target>
 
   <Target Name="Test" DependsOnTargets="Clean;Compile">
+    <ItemGroup>
+      <TestAssemblies Include="$(TestAssembliesPattern)" />
+    </ItemGroup>
     <MakeDir Directories=".build" />
     <Exec Command="$(NUnit-ToolPath)nunit-console-x86.exe %(TestAssemblies.Identity) /nologo /noshadow /domain=single /xml=.build\%(TestAssemblies.filename)-test-results.xml" />
   </Target>
 
   <Target Name="Build" DependsOnTargets="Test" />
 
-  <Target Name="DoCoverage">
+  <Target Name="Coverage" DependsOnTargets="Clean;Compile">
+    <ItemGroup>
+      <TestAssemblies Include="$(TestAssembliesPattern)" />
+    </ItemGroup>
+    <MakeDir Directories=".build" />
     <Delete Files=".build\*.coverage.xml" />
     <Delete Files=".build\TestResult.xml" />
     <!-- /domain=single is not support by the NUnit msbuild task, and it is required for OpenCover coverage test -->
     <Exec Command="$(OpenCover-ToolPath)OpenCover.Console.exe -register:user -target:&quot;$(NUnit-ToolPath)nunit-console-x86.exe&quot; -targetargs:&quot;/noshadow %(TestAssemblies.Identity) /domain:single&quot; -filter:&quot;$(OpenCover-AssemblyFilter)&quot; -output:.build\%(TestAssemblies.FileName).coverage.xml" />
   </Target>
 
-  <Target Name="Coverage" DependsOnTargets="Clean;Compile;DoCoverage" />
-
   <!--
       Run ReportGenerator - local coverage history
-
-
   -->
   <Target Name="CoverageReport" DependsOnTargets="Coverage">
+    <ItemGroup>
+      <CoverageFiles Include="$(CoverageFilesPattern)" />
+    </ItemGroup>
     <ReportGenerator ReportFiles="@(CoverageFiles)" TargetDirectory="report" ReportTypes="Html" SourceDirectories="@(SourceDirectories)" HistoryDirectory=".coverageHistory"  />
     <Message Text="Coverage report has been generated: $(MSBuildProjectDirectory)\report\index.htm" />
   </Target>
@@ -87,17 +94,18 @@
 
   <!--
     Run a sonarqube analysis - coverage included
-
+    Compile must need to be run first (bug if DependsOnTargets="Compile")
   -->
-  <Target Name="Sonar">
+  <Target Name="Sonar" >
+    <ItemGroup>
+      <TestAssemblies Include="$(TestAssembliesPattern)" />
+    </ItemGroup>
     <PropertyGroup>
          <ReportPaths>@(TestAssemblies -> '$(MSBuildProjectDirectory)\.build\%(filename).coverage.xml',',')</ReportPaths>
     </PropertyGroup>
-
-    <Exec Command="MSBuild.SonarQube.Runner.exe begin /k:&quot;$(SonarKey)&quot; /n:&quot;$(SonarName)&quot; /v:&quot;$(SonarVersion)&quot; /d:sonar.cs.opencover.reportsPaths=&quot;$(ReportPaths)&quot;" />
-  
+    <Exec Command="MSBuild.SonarQube.Runner.exe begin /d:sonar.verbose=true /k:&quot;$(SonarKey)&quot; /n:&quot;$(SonarName)&quot; /v:&quot;$(SonarVersion)&quot; /d:sonar.cs.opencover.reportsPaths=&quot;$(ReportPaths)&quot;" />
+    <MSBuild Projects="$(SolutionFile)" Targets="rebuild" />
     <CallTarget Targets="Coverage"/>
-
     <CallTarget Targets="SonarEnd"/>
   </Target>
 
