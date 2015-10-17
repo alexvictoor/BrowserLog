@@ -27,7 +27,7 @@ namespace BrowserLog.TinyServer
             var content = Encoding.UTF8.GetBytes(obj.ToString());
             var stream = _tcpClient.GetStream();
             var writeTask = stream.WriteAsync(content, 0, content.Length, token);
-            return writeTask.ContinueWith(t => stream.FlushAsync(token));
+            return writeTask.ContinueWith(t => stream.FlushAsync(token), token);
         }
 
         public void Close()

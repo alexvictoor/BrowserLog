@@ -17,6 +17,7 @@ namespace BrowserLog.Demo
             XmlConfigurator.Configure(new FileInfo("log4net.xml"));
 
             var logger = LogManager.GetLogger(typeof(Program));
+            logger.Info("Hello!");
             Thread.Sleep(10000);
             for (int i = 0; i < 100000; i++)
             {

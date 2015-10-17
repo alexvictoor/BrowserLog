@@ -20,15 +20,18 @@ namespace BrowserLog
         public bool Active { get; set; }
         public int Port { get; set; }
         public string Host { get; set; }
+        public int Buffer { get; set; }
 
         public BrowserConsoleAppender()
         {
             _channelFactory = new ChannelFactory();
             Active = true;
             Port = 8765;
+            Buffer = 1;
         }
 
         // for testing
+
         public BrowserConsoleAppender(ChannelFactory channelFactory)
         {
             _channelFactory = channelFactory;
@@ -42,7 +45,7 @@ namespace BrowserLog
                 {
                     Host = FindLocalIp();
                 }
-                _channel = _channelFactory.Create(Host, Port);
+                _channel = _channelFactory.Create(Host, Port, Buffer);
             }
         }
 

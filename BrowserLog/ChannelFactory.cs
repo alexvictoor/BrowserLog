@@ -13,9 +13,9 @@ namespace BrowserLog
 {
     public class ChannelFactory
     {
-        public virtual IEventChannel Create(string host, int port)
+        public virtual IEventChannel Create(string host, int port, int bufferSize)
         {
-            var channel = new MulticastChannel();
+            var channel = new MulticastChannel(bufferSize);
 
             var js = GetContent(Assembly.GetExecutingAssembly().GetManifestResourceStream("BrowserLog.BrowserLog.js"));
             var htmlTemplate = GetContent(Assembly.GetExecutingAssembly().GetManifestResourceStream("BrowserLog.homepage.html"));
@@ -45,8 +45,12 @@ namespace BrowserLog
                     httpResponse.AddHeader("Connection", "keep-alive");
                     httpResponse.AddHeader("Access-Control-Allow-Origin", "*");
                     ctx.ResponseChannel.Send(httpResponse, ctx.Token)
-                        .ContinueWith(t => ctx.ResponseChannel.Send(new ServerSentEvent("INFO", "Connected successfully on LOG stream from " + host + ":" + port )));
-                    channel.AddChannel(ctx.ResponseChannel);
+                        .ContinueWith(t =>
+                        {
+                            ctx.ResponseChannel.Send(new ServerSentEvent("INFO",
+                                "Connected successfully on LOG stream from " + host + ":" + port));
+                            channel.AddChannel(ctx.ResponseChannel);
+                        });      
                 }
             };
             new HttpServer(host, port, handler).Run();

@@ -31,12 +31,15 @@ Below an XML fragment example that shows how to configure logback on the server 
     <Host>192.168.0.7</Host> <!-- Optional, the IP address on which the SSE server will be bound. If not specified try to detect the local IP of the host by itself -->
     <Port>8082</Port> <!-- Optional, this is the port on which the HTTP SSE server will listen. Default port is 8765 -->
     <Active>true</Active> <!-- Optional, if false the appender is disabled. Default value is true -->
+    <Buffer>10</Buffer> <!-- Optional, the size of the buffer used to replay logs on connection. Default value is 1 -->
     <layout type="log4net.Layout.PatternLayout">
       <conversionPattern value="%date [%thread] %-5level %logger - %message%newline" /> <!-- Use whatever pattern you want -->
     </layout>
   </appender>
   ...
 ```
+
+Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" 
 
 In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js".  
 
@@ -47,8 +50,6 @@ A simple way to achieve that is to use a bookmarklet. If you use your browser to
         jsCode.setAttribute('src', 'http://HOST:PORT/BrowserLog.js'); 
         document.body.appendChild(jsCode); 
     }());
-
-Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" 
 
 Why SSE?
 --------

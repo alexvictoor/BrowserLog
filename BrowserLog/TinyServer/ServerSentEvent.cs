@@ -9,7 +9,7 @@ namespace BrowserLog.TinyServer
     public class ServerSentEvent
     {
         
-        private readonly static string[] LogLevels = new string[] {"DEBUG", "INFO", "WARN", "ERROR"};
+        private readonly static string[] LogLevels = {"DEBUG", "INFO", "WARN", "ERROR"};
         private readonly string _type;
         private readonly string _data;
 

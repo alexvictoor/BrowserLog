@@ -12,12 +12,24 @@ namespace BrowserLog.TinyServer
     {
         private readonly IList<IEventChannel> _channels = new List<IEventChannel>();
         private readonly object _syncRoot = new object();
+        private readonly int _replayBufferSize;
+        private readonly IList<ServerSentEvent> _replayBuffer; 
+
+        public MulticastChannel(int replayBufferSize = 1)
+        {
+            _replayBufferSize = replayBufferSize;
+            _replayBuffer = new List<ServerSentEvent>(replayBufferSize);
+        }
 
         public void AddChannel(IEventChannel channel)
         {
             lock (_syncRoot)
             {
                 _channels.Add(channel);
+                foreach (var message in _replayBuffer)
+                {
+                    channel.Send(message);
+                }
             }
         }
 
@@ -41,6 +53,12 @@ namespace BrowserLog.TinyServer
                 {
                     _channels.Remove(channel);
                 }
+
+                while (_replayBuffer.Count >= _replayBufferSize)
+                {
+                    _replayBuffer.RemoveAt(0);
+                }
+                _replayBuffer.Add(message);
             }
         }
 

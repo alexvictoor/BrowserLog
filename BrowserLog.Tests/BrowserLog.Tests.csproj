@@ -58,6 +58,7 @@
     <Compile Include="TinyServer\HttpResponseTest.cs" />
     <Compile Include="TinyServer\HttpServerTest.cs" />
     <Compile Include="TinyServer\LineParserTest.cs" />
+    <Compile Include="TinyServer\MulticastChannelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
