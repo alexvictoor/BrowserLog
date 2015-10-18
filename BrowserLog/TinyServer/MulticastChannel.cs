@@ -45,7 +45,7 @@ namespace BrowserLog.TinyServer
                     {
                         channel.Send(message, token);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         closeChannels.Add(channel);
                     }
