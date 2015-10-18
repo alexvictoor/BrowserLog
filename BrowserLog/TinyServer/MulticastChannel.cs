@@ -13,7 +13,8 @@ namespace BrowserLog.TinyServer
         private readonly IList<IEventChannel> _channels = new List<IEventChannel>();
         private readonly object _syncRoot = new object();
         private readonly int _replayBufferSize;
-        private readonly IList<ServerSentEvent> _replayBuffer; 
+        private readonly IList<ServerSentEvent> _replayBuffer;
+        private HttpServer _httpServer;
 
         public MulticastChannel(int replayBufferSize = 1)
         {
@@ -62,5 +63,21 @@ namespace BrowserLog.TinyServer
             }
         }
 
+        public void AttachServer(HttpServer httpServer)
+        {
+            _httpServer = httpServer;
+        }
+
+        public void Dispose()
+        {
+            if (_httpServer != null)
+            {
+                _httpServer.Dispose();   
+            }
+            foreach (var channel in _channels)
+            {
+                channel.Dispose();
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BrowserLog.TinyServer
 {
-    public interface IEventChannel
+    public interface IEventChannel : IDisposable
     {
         void Send(ServerSentEvent message, CancellationToken token);
     }

@@ -53,7 +53,9 @@ namespace BrowserLog
                         });      
                 }
             };
-            new HttpServer(host, port, handler).Run();
+            var httpServer = new HttpServer(host, port, handler);
+            channel.AttachServer(httpServer);
+            httpServer.Run();
             return channel;
         }
 

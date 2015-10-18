@@ -110,5 +110,18 @@ namespace BrowserLog
                         .All(l => l.StartsWith("data:"))
                     ), Arg.Any<CancellationToken>());
         }
+
+        [Test]
+        public void Should_dispose_channel_on_shutdown()
+        {
+            // given
+            _appender.Active = true;
+            _appender.ActivateOptions();
+            BasicConfigurator.Configure(_appender);
+            // when
+            LogManager.Shutdown();
+            // then
+            _channel.Received().Dispose();
+        }
     }
 }

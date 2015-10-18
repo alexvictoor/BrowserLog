@@ -22,10 +22,10 @@ namespace BrowserLog.Demo
             for (int i = 0; i < 100000; i++)
             {
                 logger.Info("Hello this is a log from a server-side process!");
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 logger.Warn("Hello this is a warning from a server-side process!");
                 logger.DebugFormat("... and here is another log again ({0})", i);
-                Thread.Sleep(2000);
+                Thread.Sleep(200);
                 try
                 {
                     ThrowExceptionWithStackTrace(4);

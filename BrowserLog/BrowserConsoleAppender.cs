@@ -57,6 +57,11 @@ namespace BrowserLog
             _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
         }
 
+        protected override void OnClose()
+        {
+            _channel.Dispose();
+        }
+
         // hack described here
         // http://stackoverflow.com/a/27376368
         //
