@@ -59,7 +59,10 @@ namespace BrowserLog
 
         protected override void OnClose()
         {
-            _channel.Dispose();
+            if (_channel != null)
+            {
+                _channel.Dispose();    
+            }
         }
 
         // hack described here
