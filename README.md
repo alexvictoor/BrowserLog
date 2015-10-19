@@ -19,9 +19,14 @@ Activation requires 3 steps:
 2. configuration of the appender in the log4net configuration
 3. inclusion of a javascript snippet in your HTML code to open a SSE connection
 
-First thing first, you need to add a nuget dependency to BrowserLog:
+First thing first, you need to add a nuget dependency to BrowserLog. If you are using a recent version of log4net you can add a nuget reference to BrowserLog to your project as follow:
 
-    PM> Install-Package BrowserLog
+    PM> Install-Package BrowserLog.log4net
+
+If you are using an okld version of log4net (version<=1.2.10) you need to use the 'old' log4net package:
+
+    PM> Install-Package BrowserLog.Old.log4net
+
 
 Below an XML fragment example that shows how to configure logback on the server side
 ```xml
