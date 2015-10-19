@@ -23,10 +23,11 @@ First thing first, you need to add a nuget dependency to BrowserLog. If you are 
 
     PM> Install-Package BrowserLog.log4net
 
-If you are using an okld version of log4net (version<=1.2.10) you need to use the 'old' log4net package:
+If you are using an old version of log4net (version<=1.2.10) you need to use the 'old' log4net package:
 
     PM> Install-Package BrowserLog.Old.log4net
 
+There are two different packages because log4net 'public token' has changed between version 1.2.10 and 2.03... Hence it might be very difficult to upgrade log4net on some legacy projects.
 
 Below an XML fragment example that shows how to configure logback on the server side
 ```xml
