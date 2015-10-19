@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,6 +58,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BrowserLog.Old.log4net\BrowserLog.Old.log4net.csproj">
+      <Project>{63d3ea45-7a0b-46ff-9df0-608d05c41693}</Project>
+      <Name>BrowserLog.Old.log4net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrowserLog\BrowserLog.csproj">
       <Project>{4f4a8313-5930-4cf3-a016-be3d763c170b}</Project>
       <Name>BrowserLog</Name>

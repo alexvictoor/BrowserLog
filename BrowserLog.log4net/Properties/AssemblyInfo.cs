@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BrowserLog")]
+[assembly: AssemblyTitle("BrowserLog.log4net")]
 [assembly: AssemblyDescription("log4net appender based on HTML5 SSE")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Alexandre Victoor")]
-[assembly: AssemblyProduct("BrowserLog")]
+[assembly: AssemblyProduct("BrowserLog.log4net")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8edd155e-8b7a-4af6-8554-92ddd02bb8c9")]
+[assembly: Guid("4e1c9683-0026-4ba0-86c4-7399fd65325e")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -34,3 +34,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.2.0.0")]
 [assembly: AssemblyFileVersion("1.2.0.0")]
+

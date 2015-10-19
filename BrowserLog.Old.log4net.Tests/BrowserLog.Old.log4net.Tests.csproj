@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4F4A8313-5930-4CF3-A016-BE3D763C170B}</ProjectGuid>
+    <ProjectGuid>{EB70CEB4-8D8D-4332-9DE4-A905136E2FA0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BrowserLog</RootNamespace>
-    <AssemblyName>BrowserLog</AssemblyName>
+    <AssemblyName>BrowserLog.Old.log4net.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\packages\NSubstitute.1.9.1.0\lib\net45\NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,21 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrowserConsoleAppenderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ChannelFactory.cs" />
-    <Compile Include="TinyServer\HttpContext.cs" />
-    <Compile Include="TinyServer\HttpRequest.cs" />
-    <Compile Include="TinyServer\HttpResponse.cs" />
-    <Compile Include="TinyServer\HttpResponseChannel.cs" />
-    <Compile Include="TinyServer\HttpServer.cs" />
-    <Compile Include="TinyServer\IEventChannel.cs" />
-    <Compile Include="TinyServer\LineParser.cs" />
-    <Compile Include="TinyServer\MulticastChannel.cs" />
-    <Compile Include="TinyServer\ServerSentEvent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BrowserLog.js" />
-    <EmbeddedResource Include="homepage.html" />
+    <ProjectReference Include="..\BrowserLog.Old.log4net\BrowserLog.Old.log4net.csproj">
+      <Project>{63d3ea45-7a0b-46ff-9df0-608d05c41693}</Project>
+      <Name>BrowserLog.Old.log4net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrowserLog\BrowserLog.csproj">
+      <Project>{4f4a8313-5930-4cf3-a016-be3d763c170b}</Project>
+      <Name>BrowserLog</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,7 +7,7 @@
     </layout>
   </appender>
 
-  <appender name="WEB" type="BrowserLog.BrowserConsoleAppender, BrowserLog">
+  <appender name="WEB" type="BrowserLog.BrowserConsoleAppender, BrowserLog.Old.log4net">
     <Active>true</Active>
     <Buffer>100</Buffer>
     <Port>8082</Port>

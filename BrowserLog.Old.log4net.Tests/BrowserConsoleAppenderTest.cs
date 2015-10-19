@@ -10,7 +10,6 @@ using BrowserLog.TinyServer;
 using log4net;
 using log4net.Config;
 using log4net.Layout;
-using NFluent;
 using NSubstitute;
 using NUnit.Framework;
 
