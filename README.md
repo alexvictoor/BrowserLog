@@ -33,7 +33,7 @@ Below an XML fragment example that shows how to configure logback on the server 
 ```xml
 <log4net>
   ...
-  <appender name="WEB" type="BrowserLog.BrowserConsoleAppender, BrowserLog">
+  <appender name="WEB" type="BrowserLog.BrowserConsoleAppender, BrowserLog.log4net">
     <Host>192.168.0.7</Host> <!-- Optional, the IP address on which the SSE server will be bound. If not specified try to detect the local IP of the host by itself -->
     <Port>8082</Port> <!-- Optional, this is the port on which the HTTP SSE server will listen. Default port is 8765 -->
     <Active>true</Active> <!-- Optional, if false the appender is disabled. Default value is true -->
