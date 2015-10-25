@@ -18,7 +18,7 @@ namespace BrowserLog.Demo
 
             var logger = LogManager.GetLogger(typeof(Program));
             logger.Info("Hello!");
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
             for (int i = 0; i < 100000; i++)
             {
                 logger.Info("Hello this is a log from a server-side process!");
