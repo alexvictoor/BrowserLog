@@ -47,9 +47,11 @@ Below an XML fragment example that shows how to configure logback on the server 
 
 Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" 
 
-In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js".  
+In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js":
 
-A simple way to achieve that is to use a bookmarklet. If you use your browser to display the 'home page' of the embedded HTTP SSE server (at URL http:// HOST : PORT where HOST & PORT are the parameters you have used in the log4net configuration). You will get an ugly blank page, the main purpose of this page is to test your configuration but most of all to bring you a ready to use bookmarklet. This bookmarklet looks like code fragment below:
+    <script src="http://HOST:PORT/BrowserLog.js"></script> 
+
+It gets even simpler when using a bookmarklet. To do so use your browser to display the 'home page' of the embedded HTTP SSE server (at URL http:// HOST : PORT where HOST & PORT are the parameters you have used in the log4net configuration). You will get an ugly blank page, the main purpose of this page is to test your configuration but most of all to bring you a ready to use bookmarklet. This bookmarklet looks like code fragment below:
 
     (function () { 
         var jsCode = document.createElement('script'); 
@@ -77,6 +79,30 @@ Below an example:
         ...                                                                  // as many as you need
     }());
 
+
+Custom colors and styles?
+-------------------------
+Once you are connected to several log streams, you will might want to get different visual appearance for those streams.  
+By default all streams use default browser log styles. Styles can be customized by adding special attributed to BrowserLog.js script tag:
+
+    <script src="http://HOST:PORT/BrowserLog.js" style="font-size: 18px; background: cyan" ></script>
+
+Styles attrbutes can also be specific to a logging category:
+
+    <script src="http://HOST:PORT/BrowserLog.js" style="color: black;" style-error="color: red; font-size: 18px;" ></script>
+
+With above example, all logs are written in black on white, size 12px, except error logs written in red, size 18px.  
+Below a bookmarklet code that gives similar results:
+
+    (function () { 
+        var jsCode = document.createElement('script'); 
+        jsCode.setAttribute('src', 'http://HOST:PORT/BrowserLog.js'); 
+        jsCode.setAttribute('style' 'color: black;');
+        jsCode.setAttribute('style-error' 'color: red; font-size: 18px;');
+        document.body.appendChild(jsCode); 
+    }());
+
+Custom styles can be specify for info (style-info) and warn (style-warn) logs as well.
 
 Disclaimer
 ---------
