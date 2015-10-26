@@ -85,11 +85,18 @@ Custom colors and styles?
 Once you are connected to several log streams, you will might want to get different visual appearance for those streams.  
 By default all streams use default browser log styles. Styles can be customized by adding special attributed to BrowserLog.js script tag:
 
-    <script src="http://HOST:PORT/BrowserLog.js" style="font-size: 18px; background: cyan" ></script>
+    <script 
+        src="http://HOST:PORT/BrowserLog.js" 
+        style="font-size: 18px; background: cyan" >
+    </script>
 
 Styles attrbutes can also be specific to a logging category:
 
-    <script src="http://HOST:PORT/BrowserLog.js" style="color: black;" style-error="color: red; font-size: 18px;" ></script>
+    <script 
+        src="http://HOST:PORT/BrowserLog.js" 
+        style="color: black;" 
+        style-error="color: red; font-size: 18px;" >
+    </script>
 
 With above example, all logs are written in black on white, size 12px, except error logs written in red, size 18px.  
 Below a bookmarklet code that gives similar results:
