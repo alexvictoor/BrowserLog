@@ -109,7 +109,7 @@ Below a bookmarklet code that gives similar results:
         document.body.appendChild(jsCode); 
     }());
 
-Custom styles can be specify for info (style-info) and warn (style-warn) logs as well.
+Custom styles can be specify for debug (style-debug), info (style-info) and warn (style-warn) logs as well.
 
 Disclaimer
 ---------
