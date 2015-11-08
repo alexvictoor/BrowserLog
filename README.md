@@ -51,7 +51,7 @@ In the browser side, the easiest way to get the logs is to include in your HTML 
 
     <script src="http://HOST:PORT/BrowserLog.js"></script> 
 
-It gets even simpler when using a bookmarklet. To do so use your browser to display the 'home page' of the embedded HTTP SSE server (at URL http:// HOST : PORT where HOST & PORT are the parameters you have used in the log4net configuration). You will get an ugly blank page, the main purpose of this page is to test your configuration but most of all to bring you a ready to use bookmarklet. This bookmarklet looks like code fragment below:
+It gets even simpler when using a bookmarklet. To do so use your browser to display the "homepage" of the embedded HTTP SSE server (at URL http:// HOST : PORT where HOST & PORT are the parameters you have used in the log4net configuration). The main purpose of this "homepage" is to test your BrowserLog configuration but it also brings a ready to use bookmarklet (named "Get Logs!"). This bookmarklet looks like code fragment below:
 
     (function () { 
         var jsCode = document.createElement('script'); 
