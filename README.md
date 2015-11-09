@@ -66,18 +66,8 @@ All newest browsers implement SSE, except IE... (no troll intended). Chrome even
 
 Multiple server-side process?
 -----------------------------
-Let's say that you are working on a web application in a micro service architecture. You might need to get logs from a lot of services. You could use a bookmarklet for each process but you can also create your own bookmarklet for a given environment.
-Below an example:
-
-    (function () { 
-        var jsCode = document.createElement('script');                        // open a first stream  
-        jsCode.setAttribute('src', 'http://HOST1:PORT1/BrowserLog.js'); 
-        document.body.appendChild(jsCode); 
-        jsCode = document.createElement('script'); 
-        jsCode.setAttribute('src', 'http://HOST2:PORT2/BrowserLog.js');      // a second one
-        document.body.appendChild(jsCode);
-        ...                                                                  // as many as you need
-    }());
+If you want to watch logs coming from several process, you just need one single browser console!  
+Several bookmarlets can be executed on same browser location. To distinguisg logs coming from one service to logs coming from another one, you can use different log4net pattern, use a log prefix, or use custom styles (see next section). 
 
 
 Custom colors and styles?
