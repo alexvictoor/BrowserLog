@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using BrowserLog.TinyServer;
 using NLog;
@@ -29,26 +28,25 @@ namespace BrowserLog
             Name = "Console";
         }
 
-        
         // for testing
         public BrowserConsoleTarget(ChannelFactory channelFactory)
         {
             _channelFactory = channelFactory;
         }
 
-//        protected override void InitializeTarget()
-//        {
-//            base.InitializeTarget();
-//
-//            if (Active)
-//            {
-//                if (Host == null)
-//                {
-//                    Host = FindLocalIp();
-//                }
-//                _channel = _channelFactory.Create(Host, Port, Buffer);
-//            }
-//        }
+        protected override void InitializeTarget()
+        {
+            base.InitializeTarget();
+
+            if (Active)
+            {
+                if (Host == null)
+                {
+                    Host = FindLocalIp();
+                }
+                _channel = _channelFactory.Create(Host, Port, Buffer);
+            }
+        }
 
         // hack described here
         // http://stackoverflow.com/a/27376368
@@ -68,8 +66,12 @@ namespace BrowserLog
         protected override void Write(LogEventInfo logEvent)
         {
             var message = base.Layout.Render(logEvent);
-            var sse = new ServerSentEvent(logEvent.Level.Name, message);
-            _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+
+            if (Active)
+            {
+                var sse = new ServerSentEvent(logEvent.Level.Name.ToUpperInvariant(), message);
+                _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+            }
         }
 
         protected override void CloseTarget()
