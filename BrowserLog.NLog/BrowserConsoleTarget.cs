@@ -25,7 +25,7 @@ namespace BrowserLog.NLog
             Active = true;
             Port = 8765;
             Buffer = 1;
-            Name = "Console";
+            Name = "BrowserConsole";
         }
 
         // for testing
@@ -65,10 +65,9 @@ namespace BrowserLog.NLog
 
         protected override void Write(LogEventInfo logEvent)
         {
-            var message = base.Layout.Render(logEvent);
-
             if (Active)
             {
+                var message = base.Layout.Render(logEvent);
                 var sse = new ServerSentEvent(logEvent.Level.Name.ToUpperInvariant(), message);
                 _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
             }
