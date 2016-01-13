@@ -13,6 +13,11 @@ namespace BrowserLog.NLog
         private readonly ChannelFactory _channelFactory;
         private IEventChannel _channel;
 
+        public bool Active { get; set; }
+        public int Port { get; set; }
+        public string Host { get; set; }
+        public int Buffer { get; set; }
+
         public BrowserConsoleTarget()
         {
             _channelFactory = new ChannelFactory();
@@ -27,11 +32,6 @@ namespace BrowserLog.NLog
         {
             _channelFactory = channelFactory;
         }
-
-        public bool Active { get; set; }
-        public int Port { get; set; }
-        public string Host { get; set; }
-        public int Buffer { get; set; }
 
         protected override void InitializeTarget()
         {
@@ -51,7 +51,7 @@ namespace BrowserLog.NLog
         {
             if (Active)
             {
-                var message = Layout.Render(logEvent);
+                var message = base.Layout.Render(logEvent);
                 var sse = new ServerSentEvent(logEvent.Level.Name.ToUpperInvariant(), message);
                 _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
             }

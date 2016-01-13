@@ -12,6 +12,11 @@ namespace BrowserLog
         private readonly ChannelFactory _channelFactory;
         private IEventChannel _channel;
 
+        public bool Active { get; set; }
+        public int Port { get; set; }
+        public string Host { get; set; }
+        public int Buffer { get; set; }
+
         public BrowserConsoleAppender()
         {
             _channelFactory = new ChannelFactory();
@@ -25,11 +30,6 @@ namespace BrowserLog
         {
             _channelFactory = channelFactory;
         }
-
-        public bool Active { get; set; }
-        public int Port { get; set; }
-        public string Host { get; set; }
-        public int Buffer { get; set; }
 
         public override void ActivateOptions()
         {
@@ -45,7 +45,7 @@ namespace BrowserLog
 
         protected override void Append(LoggingEvent loggingEvent)
         {
-            var message = RenderLoggingEvent(loggingEvent);
+            var message = base.RenderLoggingEvent(loggingEvent);
             var sse = new ServerSentEvent(loggingEvent.Level.DisplayName, message);
             _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
         }
