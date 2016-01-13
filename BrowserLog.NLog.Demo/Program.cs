@@ -27,7 +27,7 @@ namespace BrowserLog.NLog.Demo
                 }
                 catch (Exception ex)
                 {
-                    logger.Error("An error has occured, really?", ex);
+                    logger.Error(ex, "An error has occured, really?");
                 }
 
                 Thread.Sleep(1000);
