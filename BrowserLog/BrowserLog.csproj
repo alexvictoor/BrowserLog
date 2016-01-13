@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commom\DefaultHostFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ChannelFactory.cs" />
     <Compile Include="TinyServer\HttpContext.cs" />

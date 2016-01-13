@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using BrowserLog.Commom;
 using BrowserLog.TinyServer;
 using log4net.Appender;
@@ -15,14 +9,8 @@ namespace BrowserLog
 {
     public class BrowserConsoleAppender : AppenderSkeleton
     {
-
         private readonly ChannelFactory _channelFactory;
         private IEventChannel _channel;
-
-        public bool Active { get; set; }
-        public int Port { get; set; }
-        public string Host { get; set; }
-        public int Buffer { get; set; }
 
         public BrowserConsoleAppender()
         {
@@ -33,11 +21,15 @@ namespace BrowserLog
         }
 
         // for testing
-
         public BrowserConsoleAppender(ChannelFactory channelFactory)
         {
             _channelFactory = channelFactory;
         }
+
+        public bool Active { get; set; }
+        public int Port { get; set; }
+        public string Host { get; set; }
+        public int Buffer { get; set; }
 
         public override void ActivateOptions()
         {
@@ -53,7 +45,7 @@ namespace BrowserLog
 
         protected override void Append(LoggingEvent loggingEvent)
         {
-            var message = base.RenderLoggingEvent(loggingEvent);
+            var message = RenderLoggingEvent(loggingEvent);
             var sse = new ServerSentEvent(loggingEvent.Level.DisplayName, message);
             _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
         }
@@ -62,7 +54,7 @@ namespace BrowserLog
         {
             if (_channel != null)
             {
-                _channel.Dispose();    
+                _channel.Dispose();
             }
         }
     }
