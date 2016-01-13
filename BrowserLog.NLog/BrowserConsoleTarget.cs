@@ -6,7 +6,7 @@ using BrowserLog.TinyServer;
 using NLog;
 using NLog.Targets;
 
-namespace BrowserLog
+namespace BrowserLog.NLog
 {
     [Target("BrowserConsole")]
     public class BrowserConsoleTarget : TargetWithLayout

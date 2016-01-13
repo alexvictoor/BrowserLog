@@ -18,7 +18,7 @@ namespace BrowserLog.NLog.Tests
         [SetUp]
         public void ConfigureLogger()
         {
-            var layout = new SimpleLayout("${date} [${threadid}] $level ${logger} ${ndc} - ${message}${newline}");
+            var layout = new SimpleLayout("${date} [${threadid}] ${level} ${logger} ${ndc} - ${message}${newline}");
 
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
