@@ -80,7 +80,7 @@ If you are using NLog, below a similar example:
 </nlog>
 ```
 
-**Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" **
+**Warning:** using default configuration, without specifying HOST property, **the server is not reachable on http://localhost** or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all"
 
 In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js":
 
