@@ -6,8 +6,8 @@ Use your browser as a live log viewer with this tiny .net library
 
 ![Server logs in your browser console](https://raw.githubusercontent.com/alexvictoor/BrowserLog/master/screenshot.png)
 
-BrowserLog is a log4net appender leveraging "HTML5 Server Sent Event" (SSE) to push logs on browser consoles. 
-It relies on .NET 4.5 and can be used with log4net or NLog, no other external dependencies!
+BrowserLog is a log appender leveraging on "HTML5 Server Sent Event" (SSE) to push logs on browser consoles. 
+It relies on .NET 4.5 and can be used with either log4net or NLog. No other external dependencies required!
 
 
 Usage
@@ -16,7 +16,7 @@ Usage
 Activation requires 3 steps:  
 
 1. configuration of your build to add a dependency to this project 
-2. configuration of the appender in the log4net configuration or the target in the NLog configuration
+2. configuration of the appender ( or NLog target) in the logger configuration
 3. inclusion of a javascript snippet in your HTML code to open a SSE connection
 
 First thing first, you need to add a nuget dependency to BrowserLog. 
@@ -31,7 +31,14 @@ If you are using an old version of log4net (version<=1.2.10) you need to use the
 
 There are two different packages because log4net 'public token' has changed between version 1.2.10 and 2.03... Hence it might be very difficult to upgrade log4net on some legacy projects.
 
-Below an XML fragment example that shows how to configure logback on the server side
+If you are using NLog you can add a nuget reference to BrowserLog to your project as follow:
+
+    PM> Install-Package BrowserLog.NLog
+
+The next step is to add BrowserLog in your XML logger configuration.  
+
+
+Below an XML fragment example that shows how to configure log4net on the server side:
 ```xml
 <log4net>
   ...
@@ -46,12 +53,8 @@ Below an XML fragment example that shows how to configure logback on the server 
   </appender>
   ...
 ```
-
-If you are using NLog you can add a nuget reference to BrowserLog to your project as follow:
-
-    PM> Install-Package BrowserLog.TBD
     
-Below an XML fragment example that shows how to configure logback on the server side
+If you are using NLog, below a similar example:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -77,7 +80,7 @@ Below an XML fragment example that shows how to configure logback on the server 
 </nlog>
 ```
 
-Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" 
+**Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" **
 
 In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js":
 
