@@ -2,12 +2,13 @@
 using System.Threading;
 using BrowserLog.Commom;
 using BrowserLog.TinyServer;
-using log4net.Appender;
-using log4net.Core;
+using NLog;
+using NLog.Targets;
 
-namespace BrowserLog
+namespace BrowserLog.NLog
 {
-    public class BrowserConsoleAppender : AppenderSkeleton
+    [Target("BrowserConsole")]
+    public class BrowserConsoleTarget : TargetWithLayout
     {
         private readonly ChannelFactory _channelFactory;
         private IEventChannel _channel;
@@ -17,22 +18,25 @@ namespace BrowserLog
         public string Host { get; set; }
         public int Buffer { get; set; }
 
-        public BrowserConsoleAppender()
+        public BrowserConsoleTarget()
         {
             _channelFactory = new ChannelFactory();
             Active = true;
             Port = 8765;
             Buffer = 1;
+            Name = "BrowserConsole";
         }
 
         // for testing
-        public BrowserConsoleAppender(ChannelFactory channelFactory)
+        public BrowserConsoleTarget(ChannelFactory channelFactory)
         {
             _channelFactory = channelFactory;
         }
 
-        public override void ActivateOptions()
+        protected override void InitializeTarget()
         {
+            base.InitializeTarget();
+
             if (Active)
             {
                 if (Host == null)
@@ -43,19 +47,23 @@ namespace BrowserLog
             }
         }
 
-        protected override void Append(LoggingEvent loggingEvent)
+        protected override void Write(LogEventInfo logEvent)
         {
-            var message = base.RenderLoggingEvent(loggingEvent);
-            var sse = new ServerSentEvent(loggingEvent.Level.DisplayName, message);
-            _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+            if (Active)
+            {
+                var message = base.Layout.Render(logEvent);
+                var sse = new ServerSentEvent(logEvent.Level.Name.ToUpperInvariant(), message);
+                _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+            }
         }
 
-        protected override void OnClose()
+        protected override void CloseTarget()
         {
             if (_channel != null)
             {
                 _channel.Dispose();
             }
+            base.CloseTarget();
         }
     }
 }

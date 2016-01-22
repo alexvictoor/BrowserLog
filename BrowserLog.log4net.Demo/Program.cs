@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using log4net;
 using log4net.Config;
 
-namespace BrowserLog.Demo
+namespace BrowserLog.log4net.Demo
 {
     class Program
     {

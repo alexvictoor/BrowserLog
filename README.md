@@ -7,7 +7,7 @@ Use your browser as a live log viewer with this tiny .net library
 ![Server logs in your browser console](https://raw.githubusercontent.com/alexvictoor/BrowserLog/master/screenshot.png)
 
 BrowserLog is a log4net appender leveraging "HTML5 Server Sent Event" (SSE) to push logs on browser consoles. 
-It relies on .NET 4.5 and log4net, no other external dependencies!
+It relies on .NET 4.5 and can be used with log4net or NLog, no other external dependencies!
 
 
 Usage
@@ -16,10 +16,12 @@ Usage
 Activation requires 3 steps:  
 
 1. configuration of your build to add a dependency to this project 
-2. configuration of the appender in the log4net configuration
+2. configuration of the appender in the log4net configuration or the target in the NLog configuration
 3. inclusion of a javascript snippet in your HTML code to open a SSE connection
 
-First thing first, you need to add a nuget dependency to BrowserLog. If you are using a recent version of log4net you can add a nuget reference to BrowserLog to your project as follow:
+First thing first, you need to add a nuget dependency to BrowserLog. 
+
+If you are using a recent version of log4net you can add a nuget reference to BrowserLog to your project as follow:
 
     PM> Install-Package BrowserLog.log4net
 
@@ -43,6 +45,36 @@ Below an XML fragment example that shows how to configure logback on the server 
     </layout>
   </appender>
   ...
+```
+
+If you are using NLog you can add a nuget reference to BrowserLog to your project as follow:
+
+    PM> Install-Package BrowserLog.TBD
+    
+Below an XML fragment example that shows how to configure logback on the server side
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog>
+...
+  <extensions>
+    <add assembly="BrowserLog.NLog"/>
+  </extensions>
+  <targets>
+    <target 
+      name="WEB" 
+      type="BrowserConsole" 
+      Host="192.168.0.7"
+      Active="true" 
+      Buffer="100"
+      Port="8082"
+      layout="${date} [${threadid}] ${uppercase:${level}} ${logger} ${ndc} - ${message}${newline}" />
+  </targets>
+  <rules>
+    <logger name="*" minlevel="Debug" writeTo="WEB" />
+  </rules>
+  ...
+</nlog>
 ```
 
 Warning: using default configuration, without specifying HOST property, the server is not reachable on http://localhost or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all" 

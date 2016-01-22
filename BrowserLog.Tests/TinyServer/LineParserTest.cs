@@ -45,7 +45,7 @@ namespace BrowserLog.TinyServer
         }
 
         [Test]
-        [Timeout(2000)]
+        [Timeout(10000)]
         public async void Should_parse_lines_till_cancelled()
         {
             // given

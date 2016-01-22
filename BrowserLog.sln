@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog", "BrowserLog\BrowserLog.csproj", "{4F4A8313-5930-4CF3-A016-BE3D763C170B}"
 EndProject
@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.Tests", "Browser
 		{4F4A8313-5930-4CF3-A016-BE3D763C170B} = {4F4A8313-5930-4CF3-A016-BE3D763C170B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.Demo", "BrowserLog.Demo\BrowserLog.Demo.csproj", "{08DC6DE4-5283-4787-8ABE-FBEF145DA8D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.log4net.Demo", "BrowserLog.log4net.Demo\BrowserLog.log4net.Demo.csproj", "{08DC6DE4-5283-4787-8ABE-FBEF145DA8D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.log4net", "BrowserLog.log4net\BrowserLog.log4net.csproj", "{FE8746BD-5B55-4F16-85FE-943CDB521B3D}"
 EndProject
@@ -19,6 +19,17 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.Old.log4net", "BrowserLog.Old.log4net\BrowserLog.Old.log4net.csproj", "{63D3EA45-7A0B-46FF-9DF0-608D05C41693}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.Old.log4net.Tests", "BrowserLog.Old.log4net.Tests\BrowserLog.Old.log4net.Tests.csproj", "{EB70CEB4-8D8D-4332-9DE4-A905136E2FA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{24DF758A-061F-439E-911C-1E7883BFC02C}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.NLog", "BrowserLog.NLog\BrowserLog.NLog.csproj", "{DE363B80-9740-4E7B-9305-7AF90F8C2BB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.NLog.Tests", "BrowserLog.NLog.Tests\BrowserLog.NLog.Tests.csproj", "{A97BEDBF-F146-4D3B-80EC-65C9A8E88227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.NLog.Demo", "BrowserLog.NLog.Demo\BrowserLog.NLog.Demo.csproj", "{5BE64F89-C81F-4D54-985D-40928625DB4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +65,18 @@ Global
 		{EB70CEB4-8D8D-4332-9DE4-A905136E2FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB70CEB4-8D8D-4332-9DE4-A905136E2FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB70CEB4-8D8D-4332-9DE4-A905136E2FA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE363B80-9740-4E7B-9305-7AF90F8C2BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE363B80-9740-4E7B-9305-7AF90F8C2BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE363B80-9740-4E7B-9305-7AF90F8C2BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE363B80-9740-4E7B-9305-7AF90F8C2BB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A97BEDBF-F146-4D3B-80EC-65C9A8E88227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A97BEDBF-F146-4D3B-80EC-65C9A8E88227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A97BEDBF-F146-4D3B-80EC-65C9A8E88227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A97BEDBF-F146-4D3B-80EC-65C9A8E88227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE64F89-C81F-4D54-985D-40928625DB4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE64F89-C81F-4D54-985D-40928625DB4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE64F89-C81F-4D54-985D-40928625DB4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE64F89-C81F-4D54-985D-40928625DB4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
