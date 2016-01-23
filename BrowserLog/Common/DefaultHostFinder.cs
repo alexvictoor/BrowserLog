@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace BrowserLog.Commom
+namespace BrowserLog.Common
 {
     public static class DefaultHostFinder
     {
