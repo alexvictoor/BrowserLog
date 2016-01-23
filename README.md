@@ -1,12 +1,12 @@
 BrowserLog
 ============
-Use your browser as a live log viewer with this tiny .net library 
+Use your browser as a live log viewer with this tiny .net library
 
 [![Build status](https://ci.appveyor.com/api/projects/status/github/alexvictoor/BrowserLog?svg=true)](https://ci.appveyor.com/project/alexvictoor/BrowserLog)
 
 ![Server logs in your browser console](https://raw.githubusercontent.com/alexvictoor/BrowserLog/master/screenshot.png)
 
-BrowserLog is a log appender leveraging on "HTML5 Server Sent Event" (SSE) to push logs on browser consoles. 
+BrowserLog is a log appender leveraging on "HTML5 Server Sent Event" (SSE) to push logs on browser consoles.
 It relies on .NET 4.5 and can be used with either log4net or NLog. No other external dependencies required!
 
 
@@ -15,11 +15,11 @@ Usage
 
 Activation requires 3 steps:  
 
-1. configuration of your build to add a dependency to this project 
+1. configuration of your build to add a dependency to this project
 2. configuration of the appender ( or NLog target) in the logger configuration
 3. inclusion of a javascript snippet in your HTML code to open a SSE connection
 
-First thing first, you need to add a nuget dependency to BrowserLog. 
+First thing first, you need to add a nuget dependency to BrowserLog.
 
 If you are using a recent version of log4net you can add a nuget reference to BrowserLog to your project as follow:
 
@@ -53,7 +53,7 @@ Below an XML fragment example that shows how to configure log4net on the server 
   </appender>
   ...
 ```
-    
+
 If you are using NLog, below a similar example:
 
 ```xml
@@ -64,11 +64,11 @@ If you are using NLog, below a similar example:
     <add assembly="BrowserLog.NLog"/>
   </extensions>
   <targets>
-    <target 
-      name="WEB" 
-      type="BrowserConsole" 
+    <target
+      name="WEB"
+      type="BrowserConsole"
       Host="192.168.0.7"
-      Active="true" 
+      Active="true"
       Buffer="100"
       Port="8082"
       layout="${date} [${threadid}] ${uppercase:${level}} ${logger} ${ndc} - ${message}${newline}" />
@@ -84,15 +84,17 @@ If you are using NLog, below a similar example:
 
 In the browser side, the easiest way to get the logs is to include in your HTML document javascript file BrowserLog.js. This script is delivered by the embedded HTTP SSE server at URL path "/BrowserLog.js":
 
-    <script src="http://HOST:PORT/BrowserLog.js"></script> 
+    <script src="http://HOST:PORT/BrowserLog.js"></script>
 
 It gets even simpler when using a bookmarklet. To do so use your browser to display the "homepage" of the embedded HTTP SSE server (at URL http:// HOST : PORT where HOST & PORT are the parameters you have used in the log4net configuration). The main purpose of this "homepage" is to test your BrowserLog configuration but it also brings a ready to use bookmarklet (named "Get Logs!"). This bookmarklet looks like code fragment below:
 
-    (function () { 
-        var jsCode = document.createElement('script'); 
-        jsCode.setAttribute('src', 'http://HOST:PORT/BrowserLog.js'); 
-        document.body.appendChild(jsCode); 
+    (function () {
+        var jsCode = document.createElement('script');
+        jsCode.setAttribute('src', 'http://HOST:PORT/BrowserLog.js');
+        document.body.appendChild(jsCode);
     }());
+
+*Note: the name of the js file does not really matter, you use URL http://HOST:PORT/foo.bar.js it will work as well*
 
 Why SSE?
 --------
@@ -102,7 +104,27 @@ All newest browsers implement SSE, except IE... (no troll intended). Chrome even
 Multiple server-side process?
 -----------------------------
 If you want to watch logs coming from several process, you just need one single browser console!  
-Several bookmarlets can be executed on same browser location. To distinguisg logs coming from one service to logs coming from another one, you can use different log4net pattern, use a log prefix, or use custom styles (see next section). 
+There is no way to generated a big fat bookmarklet but you can write one by yourself quite easily. Let's say you have 2 processes:
+
+- process1 logs can be retrieved using HOST1 & PORT1
+- process2 logs can be retrieved using HOST2 & PORT2
+
+You can use a bookmarlet that looks like code fragment below to retrieve logs from both processes:
+
+    (function () {
+        var jsCode = document.createElement('script');
+        jsCode.setAttribute('src', 'http://HOST1:PORT1/process1.js');
+        document.body.appendChild(jsCode);
+    }());
+    (function () {
+        var jsCode = document.createElement('script');
+        jsCode.setAttribute('src', 'http://HOST2:PORT2/process2.js');
+        document.body.appendChild(jsCode);
+    }());
+
+Not that hard, right? One tiny detail is important to have in mind: in the above example, the two js resources have different names, process1 an process2.js, this is done on purpose. Otherwise, the js code that opens the SSE log stream does not work properly and opens only a connection to the server declared last.  
+
+To distinguish logs coming from one service to logs coming from another one, you can use different log4net pattern, use a log prefix, or use custom styles (see next section).
 
 
 Custom colors and styles?
@@ -110,28 +132,28 @@ Custom colors and styles?
 Once you are connected to several log streams, you will might want to get different visual appearance for those streams.  
 By default all streams use default browser log styles. Styles can be customized by adding special attributed to BrowserLog.js script tag:
 
-    <script 
-        src="http://HOST:PORT/BrowserLog.js" 
+    <script
+        src="http://HOST:PORT/BrowserLog.js"
         style="font-size: 18px; background: cyan" >
     </script>
 
 Styles attrbutes can also be specific to a logging category:
 
-    <script 
-        src="http://HOST:PORT/BrowserLog.js" 
-        style="color: black;" 
+    <script
+        src="http://HOST:PORT/BrowserLog.js"
+        style="color: black;"
         style-error="color: red; font-size: 18px;" >
     </script>
 
 With above example, all logs are written in black on white, size 12px, except error logs written in red, size 18px.  
 Below a bookmarklet code that gives similar results:
 
-    (function () { 
-        var jsCode = document.createElement('script'); 
-        jsCode.setAttribute('src', 'http://HOST:PORT/BrowserLog.js'); 
+    (function () {
+        var jsCode = document.createElement('script');
+        jsCode.setAttribute('src', 'http://HOST:PORT/BrowserLog.js');
         jsCode.setAttribute('style' 'color: black;');
         jsCode.setAttribute('style-error' 'color: red; font-size: 18px;');
-        document.body.appendChild(jsCode); 
+        document.body.appendChild(jsCode);
     }());
 
 Custom styles can be specify for debug (style-debug), info (style-info) and warn (style-warn) logs as well.
