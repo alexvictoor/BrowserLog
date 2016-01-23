@@ -45,9 +45,12 @@ namespace BrowserLog
 
         protected override void Append(LoggingEvent loggingEvent)
         {
-            var message = base.RenderLoggingEvent(loggingEvent);
-            var sse = new ServerSentEvent(loggingEvent.Level.DisplayName, message);
-            _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+            if (Active)
+            {
+                var message = base.RenderLoggingEvent(loggingEvent);
+                var sse = new ServerSentEvent(loggingEvent.Level.DisplayName, message);
+                _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+            }
         }
 
         protected override void OnClose()
