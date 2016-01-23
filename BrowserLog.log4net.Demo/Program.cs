@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using log4net.Config;
+using log4net.Repository.Hierarchy;
 
 namespace BrowserLog.log4net.Demo
 {
@@ -17,6 +18,9 @@ namespace BrowserLog.log4net.Demo
             XmlConfigurator.Configure(new FileInfo("log4net.xml"));
 
             var logger = LogManager.GetLogger(typeof(Program));
+
+            OpenBrowserToBrowserLogUrl(logger);
+
             logger.Info("Hello!");
             Thread.Sleep(1000);
             for (int i = 0; i < 100000; i++)
@@ -36,6 +40,20 @@ namespace BrowserLog.log4net.Demo
                 }
                 
                 Thread.Sleep(1000);            
+            }
+        }
+
+        private static void OpenBrowserToBrowserLogUrl(ILog logger)
+        {
+            try
+            {
+                var appender = (BrowserConsoleAppender) logger.Logger.Repository.GetAppenders().First(a =>a.Name == "WEB");
+                var url = "http://" + appender.Host + ":" + appender.Port;
+                Console.WriteLine("Opening BrowserLog url '" + url + "'... (Display the debugging console to see them.)");
+                System.Diagnostics.Process.Start(url);
+            }
+            catch (Exception)
+            {
             }
         }
 
