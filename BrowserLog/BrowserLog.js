@@ -1,10 +1,24 @@
 (function() {
     if (typeof (EventSource) !== "undefined") {
-        var scripts = document.getElementsByTagName('script');
-        var index = scripts.length - 1;
-        var myScript = scripts[index];
+
+        var findScript = function() {
+            var scripts = document.getElementsByTagName('script');
+            for (var index = 0, len = scripts.length; index < len; index++) {
+                var currentScript = scripts[index];
+                var currentUrl = currentScript.src;
+                if (currentUrl && currentUrl.indexOf("URL_QUERY") > -1) {
+                    return currentScript;
+                }
+            }
+        };
+
+
+        var myScript = findScript();
         var scriptUrl = myScript.src;
-        var streamUrl = scriptUrl.substring(0, scriptUrl.length - 13) + "stream"; // 13 being the length of string "BrowserLog.js"
+        var urlPrefix = scriptUrl.substring(0, scriptUrl.lastIndexOf('/'));
+
+
+        var streamUrl = urlPrefix + "/stream"; 
         var source = new EventSource(streamUrl);
 
         var defaultStyle = myScript.getAttribute("style");

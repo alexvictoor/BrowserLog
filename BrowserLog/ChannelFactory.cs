@@ -17,8 +17,9 @@ namespace BrowserLog
         {
             var channel = new MulticastChannel(bufferSize);
 
-            var js = GetContent(Assembly.GetExecutingAssembly().GetManifestResourceStream("BrowserLog.BrowserLog.js"));
+            var jsTemplate = GetContent(Assembly.GetExecutingAssembly().GetManifestResourceStream("BrowserLog.BrowserLog.js"));
             var htmlTemplate = GetContent(Assembly.GetExecutingAssembly().GetManifestResourceStream("BrowserLog.homepage.html"));
+            
             var html = htmlTemplate.Replace("HOST", Dns.GetHostName()).Replace("PORT", port.ToString());
 
             Action<HttpContext> handler = ctx =>
@@ -31,8 +32,10 @@ namespace BrowserLog
                     httpResponse.Content = html;
                     ctx.ResponseChannel.Send(httpResponse, ctx.Token).ContinueWith(t => ctx.ResponseChannel.Close());
                 } 
-                else if (ctx.HttpRequest.Uri == "/BrowserLog.js")
+                else if (ctx.HttpRequest.Uri.Contains(".js"))
                 {
+                    var js = jsTemplate.Replace("URL_QUERY", ctx.HttpRequest.Uri);
+
                     httpResponse.AddHeader("Content-Type", "text/javascript");
                     httpResponse.AddHeader("Connection", "close");
                     httpResponse.Content = js;
