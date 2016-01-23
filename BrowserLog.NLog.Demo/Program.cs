@@ -12,7 +12,7 @@ namespace BrowserLog.NLog.Demo
         {
             LogManager.Configuration = new NLogConfig.XmlLoggingConfiguration("NLog.config", true);
 
-            var logger = LogManager.GetLogger("*", typeof(Program));
+            var logger = LogManager.GetLogger("MyLogger", typeof(Program));
 
             OpenBrowserToBrowserLogUrl(logger);
 
