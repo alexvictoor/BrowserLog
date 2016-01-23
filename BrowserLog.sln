@@ -31,6 +31,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.NLog.Tests", "Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.NLog.Demo", "BrowserLog.NLog.Demo\BrowserLog.NLog.Demo.csproj", "{5BE64F89-C81F-4D54-985D-40928625DB4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.Serilog", "BrowserLog.Serilog\BrowserLog.Serilog.csproj", "{5CBB8EDE-4EDB-4FA1-9B60-136581F39043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.Serilog.Demo", "BrowserLog.Serilog.Demo\BrowserLog.Serilog.Demo.csproj", "{8C074725-8320-4AC0-8298-C1F1165D9EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLog.Serilog.Tests", "BrowserLog.Serilog.Tests\BrowserLog.Serilog.Tests.csproj", "{053352C0-2DB0-497D-82CE-BB0151E32510}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +83,18 @@ Global
 		{5BE64F89-C81F-4D54-985D-40928625DB4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BE64F89-C81F-4D54-985D-40928625DB4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BE64F89-C81F-4D54-985D-40928625DB4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CBB8EDE-4EDB-4FA1-9B60-136581F39043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CBB8EDE-4EDB-4FA1-9B60-136581F39043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CBB8EDE-4EDB-4FA1-9B60-136581F39043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CBB8EDE-4EDB-4FA1-9B60-136581F39043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C074725-8320-4AC0-8298-C1F1165D9EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C074725-8320-4AC0-8298-C1F1165D9EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C074725-8320-4AC0-8298-C1F1165D9EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C074725-8320-4AC0-8298-C1F1165D9EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053352C0-2DB0-497D-82CE-BB0151E32510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053352C0-2DB0-497D-82CE-BB0151E32510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053352C0-2DB0-497D-82CE-BB0151E32510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053352C0-2DB0-497D-82CE-BB0151E32510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
