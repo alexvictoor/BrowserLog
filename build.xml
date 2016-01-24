@@ -35,7 +35,7 @@
 
     <!-- 
       SonarQube stuff for your solution. You need to have MSBuild.SonarQube.Runner.exe
-      installed and availlable in your PATH
+      installed and available in your PATH
     -->
     <SonarKey>BrowserLog</SonarKey>
     <SonarName>BrowserLog</SonarName>

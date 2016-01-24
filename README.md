@@ -7,7 +7,7 @@ Use your browser as a live log viewer with this tiny .net library
 ![Server logs in your browser console](https://raw.githubusercontent.com/alexvictoor/BrowserLog/master/screenshot.png)
 
 BrowserLog is a log appender leveraging on "HTML5 Server Sent Event" (SSE) to push logs on browser consoles.
-It relies on .NET 4.5 and support log4net (od and new key), NLog and Serilog. No other external dependencies required!
+It relies on .NET 4.5 and support log4net (old and new key), NLog and Serilog. No other external dependencies required!
 
 
 Usage
