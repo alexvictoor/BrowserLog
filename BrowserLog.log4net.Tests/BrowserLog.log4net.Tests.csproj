@@ -64,6 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Global.AssemblyInfo.cs">
+      <Link>Properties\Global.AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="BrowserConsoleAppenderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

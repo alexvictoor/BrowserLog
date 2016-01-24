@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Global.AssemblyInfo.cs">
+      <Link>Properties\Global.AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TinyServer\HttpRequestTest.cs" />
     <Compile Include="TinyServer\HttpResponseTest.cs" />
