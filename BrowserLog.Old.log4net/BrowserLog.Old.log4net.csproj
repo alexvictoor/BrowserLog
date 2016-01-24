@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserConsoleAppender.cs" />
+    <Compile Include="..\BrowserLog.log4net\BrowserConsoleAppender.cs">
+      <Link>BrowserConsoleAppender.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

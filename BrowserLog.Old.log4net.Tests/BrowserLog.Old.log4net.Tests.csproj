@@ -64,7 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserConsoleAppenderTest.cs" />
+    <Compile Include="..\BrowserLog.log4net.Tests\BrowserConsoleAppenderTest.cs">
+      <Link>BrowserConsoleAppenderTest.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
