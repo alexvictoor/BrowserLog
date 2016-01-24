@@ -7,7 +7,7 @@ Use your browser as a live log viewer with this tiny .net library
 ![Server logs in your browser console](https://raw.githubusercontent.com/alexvictoor/BrowserLog/master/screenshot.png)
 
 BrowserLog is a log appender leveraging on "HTML5 Server Sent Event" (SSE) to push logs on browser consoles.
-It relies on .NET 4.5 and can be used with either log4net or NLog. No other external dependencies required!
+It relies on .NET 4.5 and support log4net (od and new key), NLog and Serilog. No other external dependencies required!
 
 
 Usage
@@ -31,9 +31,14 @@ If you are using an old version of log4net (version<=1.2.10) you need to use the
 
 There are two different packages because log4net 'public token' has changed between version 1.2.10 and 2.03... Hence it might be very difficult to upgrade log4net on some legacy projects.
 
-If you are using NLog you can add a nuget reference to BrowserLog to your project as follow:
+If you are using NLog you need to add a nuget reference to BrowserLog to your project as follow:
 
     PM> Install-Package BrowserLog.NLog
+
+If you are using NLog you need to add a nuget reference to BrowserLog to your project as follow:
+
+    PM> Install-Package BrowserLog.Serilog
+
 
 The next step is to add BrowserLog in your XML logger configuration.  
 
@@ -78,6 +83,19 @@ If you are using NLog, below a similar example:
   </rules>
   ...
 </nlog>
+```
+
+Last but not least, with Serilog you need to add a few config keys in your App.config files as shown below:
+
+```xml
+<appSettings>
+  <add key="serilog:using:BrowserConsole" value="BrowserLog.Serilog" />
+  <add key="serilog:write-to:BrowserConsole.active" value="true" />
+  <add key="serilog:write-to:BrowserConsole.buffer" value="100" />
+  <add key="serilog:write-to:BrowserConsole.port" value="8082" />
+  <add key="serilog:write-to:BrowserConsole.outputTemplate" value="{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}" />
+  <add key="serilog:write-to:BrowserConsole.logProperties" value="true" />
+</appSettings>
 ```
 
 **Warning:** using default configuration, without specifying HOST property, **the server is not reachable on http://localhost** or 127.0.0.1 . You need to use the "windows host name" of your box, the first one returned by command "ipconfig /all"
