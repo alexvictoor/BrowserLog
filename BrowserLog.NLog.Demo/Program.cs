@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using NLog;
 using NLogConfig = NLog.Config;
@@ -11,7 +12,10 @@ namespace BrowserLog.NLog.Demo
         {
             LogManager.Configuration = new NLogConfig.XmlLoggingConfiguration("NLog.config", true);
 
-            var logger = LogManager.GetLogger("*", typeof(Program));
+            var logger = LogManager.GetLogger("MyLogger", typeof(Program));
+
+            OpenBrowserToBrowserLogUrl(logger);
+
             logger.Info("Hello!");
             Thread.Sleep(1000);
             for (int i = 0; i < 100000; i++)
@@ -31,6 +35,20 @@ namespace BrowserLog.NLog.Demo
                 }
 
                 Thread.Sleep(1000);
+            }
+        }
+
+        private static void OpenBrowserToBrowserLogUrl(Logger logger)
+        {
+            try
+            {
+                var target = ((BrowserLog.NLog.BrowserConsoleTarget) logger.Factory.Configuration.AllTargets.First(t => t.Name == "BrowserTarget"));
+                var url = "http://" + target.Host + ":" + target.Port;
+                Console.WriteLine("Opening BrowserLog url '" + url + "'... (Display the debugging console to see them.)");
+                System.Diagnostics.Process.Start(url);
+            }
+            catch (Exception)
+            {
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using BrowserLog.Commom;
+using BrowserLog.Common;
 using BrowserLog.TinyServer;
 using log4net.Appender;
 using log4net.Core;
@@ -48,6 +48,15 @@ namespace BrowserLog
             var message = base.RenderLoggingEvent(loggingEvent);
             var sse = new ServerSentEvent(loggingEvent.Level.DisplayName, message);
             _channel.Send(sse, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+        }
+
+        protected override bool PreAppendCheck()
+        {
+            if (!Active)
+            {
+                return false;
+            }
+            return base.PreAppendCheck();
         }
 
         protected override void OnClose()

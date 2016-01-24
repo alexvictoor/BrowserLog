@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using BrowserLog.Commom;
+using BrowserLog.Common;
 using BrowserLog.TinyServer;
 using NLog;
 using NLog.Targets;
