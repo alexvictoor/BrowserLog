@@ -19,6 +19,8 @@ Activation requires 3 steps:
 2. configuration of the appender ( or NLog target) in the logger configuration
 3. inclusion of a javascript snippet in your HTML code to open a SSE connection
 
+### Nuget install
+
 First thing first, you need to add a nuget dependency to BrowserLog.
 
 If you are using a recent version of log4net you can add a nuget reference to BrowserLog to your project as follow:
@@ -29,16 +31,22 @@ If you are using an old version of log4net (version<=1.2.10) you need to use the
 
     PM> Install-Package BrowserLog.Old.log4net
 
-There are two different packages because log4net 'public token' has changed between version 1.2.10 and 2.03... Hence it might be very difficult to upgrade log4net on some legacy projects.
+There are two different packages because log4net 'public token' has changed between version 1.2.10 and 2.03... Hence it might be very difficult to upgrade log4net on some legacy projects.  
+If you are in this situation, perhaps you are already using the nuget package "log4net-oldkey". In this case you should use the "old key" log4net package of BrowserLog:
 
+    PM> Install-Package BrowserLog.OldKey.log4net
+
+Perhaps you were tired of log4net messing with public keys and you are now using another logger, how to blame you...
 If you are using NLog you need to add a nuget reference to BrowserLog to your project as follow:
 
     PM> Install-Package BrowserLog.NLog
 
-If you are using NLog you need to add a nuget reference to BrowserLog to your project as follow:
+Last but not least, if you are using Serilog you need to add a nuget reference to BrowserLog to your project as follow:
 
     PM> Install-Package BrowserLog.Serilog
 
+
+### XML configuration
 
 The next step is to add BrowserLog in your XML logger configuration.  
 
